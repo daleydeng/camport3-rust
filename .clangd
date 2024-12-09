@@ -1,0 +1,2 @@
+CompileFlags:
+  Add: [-I/home/vision/mamba/envs/dev/include]

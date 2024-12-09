@@ -1,0 +1,13 @@
+[package]
+name = "camport3-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bitflags = "2.6.0"
+camport3-sys = {path = "../camport3-sys"}
+strum_macros = "0.26.4"
+thiserror = "2.0.6"
+macaddr = "1.0.1"
+
+[dev-dependencies]

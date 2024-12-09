@@ -1,0 +1,7 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "camport3-sys",
+    "camport3-rs",
+]
