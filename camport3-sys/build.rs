@@ -11,6 +11,7 @@ fn main() {
         .clang_arg(format!("-I{prefix}/include"))
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
         .default_enum_style(bindgen::EnumVariation::ModuleConsts)
+        .impl_debug(true)
         // .wrap_static_fns(true) // TODO
     ;
 

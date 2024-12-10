@@ -1399,6 +1399,11 @@ const _: () = {
     ["Offset of field: TY_DEVICE_BASE_INFO__bindgen_ty_1::usbInfo"]
         [::std::mem::offset_of!(TY_DEVICE_BASE_INFO__bindgen_ty_1, usbInfo) - 0usize];
 };
+impl ::std::fmt::Debug for TY_DEVICE_BASE_INFO__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(f, "TY_DEVICE_BASE_INFO__bindgen_ty_1 {{ union }}")
+    }
+}
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
     ["Size of TY_DEVICE_BASE_INFO"][::std::mem::size_of::<TY_DEVICE_BASE_INFO>() - 1512usize];
@@ -1424,6 +1429,11 @@ const _: () = {
     ["Offset of field: TY_DEVICE_BASE_INFO::reserved"]
         [::std::mem::offset_of!(TY_DEVICE_BASE_INFO, reserved) - 1256usize];
 };
+impl ::std::fmt::Debug for TY_DEVICE_BASE_INFO {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write ! (f , "TY_DEVICE_BASE_INFO {{ iface: {:?}, id: {:?}, vendorName: {:?}, userDefinedName: {:?}, modelName: {:?}, hardwareVersion: {:?}, firmwareVersion: {:?}, __bindgen_anon_1: {:?}, buildHash: {:?}, configVersion: {:?}, reserved: {:?} }}" , self . iface , self . id , self . vendorName , self . userDefinedName , self . modelName , self . hardwareVersion , self . firmwareVersion , self . __bindgen_anon_1 , self . buildHash , self . configVersion , self . reserved)
+    }
+}
 pub mod TY_VISIBILITY_TYPE {
     pub type Type = ::std::os::raw::c_uint;
     pub const BEGINNER: Type = 0;
@@ -1731,6 +1741,11 @@ const _: () = {
     ["Offset of field: TY_TRIGGER_PARAM_EX__bindgen_ty_1::rsvd"]
         [::std::mem::offset_of!(TY_TRIGGER_PARAM_EX__bindgen_ty_1, rsvd) - 0usize];
 };
+impl ::std::fmt::Debug for TY_TRIGGER_PARAM_EX__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(f, "TY_TRIGGER_PARAM_EX__bindgen_ty_1 {{ union }}")
+    }
+}
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
     ["Size of TY_TRIGGER_PARAM_EX"][::std::mem::size_of::<TY_TRIGGER_PARAM_EX>() - 130usize];
@@ -1738,6 +1753,15 @@ const _: () = {
     ["Offset of field: TY_TRIGGER_PARAM_EX::mode"]
         [::std::mem::offset_of!(TY_TRIGGER_PARAM_EX, mode) - 0usize];
 };
+impl ::std::fmt::Debug for TY_TRIGGER_PARAM_EX {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(
+            f,
+            "TY_TRIGGER_PARAM_EX {{ __bindgen_anon_1: {:?} }}",
+            self.__bindgen_anon_1
+        )
+    }
+}
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
 pub struct TY_TRIGGER_TIMER_LIST {
@@ -1925,6 +1949,11 @@ const _: () = {
     ["Offset of field: TY_LASER_PATTERN_PARAM__bindgen_ty_1::bin"]
         [::std::mem::offset_of!(TY_LASER_PATTERN_PARAM__bindgen_ty_1, bin) - 0usize];
 };
+impl ::std::fmt::Debug for TY_LASER_PATTERN_PARAM__bindgen_ty_1 {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(f, "TY_LASER_PATTERN_PARAM__bindgen_ty_1 {{ union }}")
+    }
+}
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
 const _: () = {
     ["Size of TY_LASER_PATTERN_PARAM"][::std::mem::size_of::<TY_LASER_PATTERN_PARAM>() - 536usize];
@@ -1935,6 +1964,15 @@ const _: () = {
     ["Offset of field: TY_LASER_PATTERN_PARAM::type_"]
         [::std::mem::offset_of!(TY_LASER_PATTERN_PARAM, type_) - 4usize];
 };
+impl ::std::fmt::Debug for TY_LASER_PATTERN_PARAM {
+    fn fmt(&self, f: &mut ::std::fmt::Formatter<'_>) -> ::std::fmt::Result {
+        write!(
+            f,
+            "TY_LASER_PATTERN_PARAM {{ __bindgen_anon_1: {:?} }}",
+            self.__bindgen_anon_1
+        )
+    }
+}
 pub mod _bindgen_ty_2 {
     pub type Type = ::std::os::raw::c_uint;
     pub const TY_NORMAL_PHASE_TYPE: Type = 0;

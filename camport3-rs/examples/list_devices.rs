@@ -1,15 +1,12 @@
-use std::net::Ipv4Addr;
-
-use camport3_rs::{ty_get_interface_list, ty_init_lib, ty_lib_version, ty_update_interface_list};
-use macaddr::{MacAddr, MacAddr6};
+use camport3_rs::Context;
 
 fn main() {
-    let ver = ty_lib_version().unwrap();
+    let ctx = Context::new();
+    let ver = ctx.version();
     println!("library version: {ver}");
 
-    ty_init_lib().unwrap();
-    ty_update_interface_list().unwrap();
-    let l = ty_get_interface_list(0).unwrap();
+    ctx.update_interface_list();
+    let l = ctx.get_interface_list(0);
     for iface in l {
         println!("==== Interface ===");
         println!("name: {}", iface.name());
@@ -26,6 +23,8 @@ fn main() {
             println!("broadcast: {}", netinfo.broadcast());
         }
     }
+
+
     // assert_eq!(ver, (3, 6, 66));
     // ty_init_lib().unwrap();
 

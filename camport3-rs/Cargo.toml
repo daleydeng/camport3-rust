@@ -9,5 +9,8 @@ camport3-sys = {path = "../camport3-sys"}
 strum_macros = "0.26.4"
 thiserror = "2.0.6"
 macaddr = "1.0.1"
+serde = {version = "1.0.215", features = [ "derive" ]}
+bytemuck = { version = "1.20.0", features = [ "derive"] }
 
 [dev-dependencies]
+serde_yaml = "0.9.34"
