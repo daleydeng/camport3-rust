@@ -3,7 +3,8 @@ name = "camport3-sys"
 version = "0.1.0"
 edition = "2021"
 
-[dependencies]
-
 [build-dependencies]
 bindgen = "0.71.0"
+
+[dependencies]
+bytemuck = "1.20.0"

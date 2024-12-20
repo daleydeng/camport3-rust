@@ -1,20 +1,22 @@
+use serde::de::value::Error;
 use thiserror::Error;
+use bytemuck::TransparentWrapper;
 use strum_macros::FromRepr;
 use serde::Serialize;
+use std::fmt::Display;
 use std::{ffi::CString, marker::PhantomData, mem::transmute, ptr};
 use camport3_sys::*;
-
 use crate::utils::cstr_to_str;
 
 #[derive(Error, Serialize, Debug, Clone, Copy, PartialEq, Eq, FromRepr)]
-#[repr(i32)]
-pub enum DeviceError {
+#[repr(i32)] // TY_STATUS
+pub enum ErrorCode {
     #[error("error")]
-    ERROR = -1001,
+    ERROR = TY_STATUS_ERROR,
     #[error("not inited")]
-    NotInited = -1002,
+    NotInited = TY_STATUS_NOT_INITED,
     #[error("not implemented")]
-    NotImplemented = -1003,
+    NotImplemented = TY_STATUS_NOT_IMPLEMENTED,
     #[error("not permitted")]
     NotPermitted = -1004,
     #[error("device error")]
@@ -69,58 +71,56 @@ pub enum DeviceError {
     DevEinval = -22,
 }
 
+#[derive(Error, Serialize, Debug, Clone, Copy, PartialEq, Eq)]
+pub struct DeviceError {
+    pub errcode: ErrorCode,
+    pub firmware_errcode: Option<u32>,
+}
+
+impl Display for DeviceError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.errcode)
+    }
+}
+
 impl From<i32> for DeviceError {
     fn from(value: i32) -> Self {
-        DeviceError::from_repr(value).unwrap()
+        DeviceError {
+            errcode: ErrorCode::from_repr(value).unwrap(),
+            firmware_errcode: None,
+        }
+
     }
 }
 
 pub type Result<T> = std::result::Result<T, DeviceError>;
 
 fn chkerr(status: TY_STATUS) -> Result<()> {
-    if status != TY_STATUS_LIST::TY_STATUS_OK {
+    if status != TY_STATUS_LIST::TY_STATUS_OK as TY_STATUS {
         Err(status.into())
     } else {
         Ok(())
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, TransparentWrapper)]
 #[repr(transparent)]
 pub struct Wrapper<T>(pub T);
 
-pub trait ToWrapper: Sized {
-    fn as_ref(&self) -> &Wrapper<Self> {
-        unsafe { transmute(self) }
-    }
-}
-
-/// dont implement Deref, or cause name collision
-// impl<T> Deref for Wrapper<T> {
-//     type Target = T;
-
-//     fn deref(&self) -> &Self::Target {
-//         &self.0
-//     }
-// }
-
 pub type VersionInfo = Wrapper<TY_VERSION_INFO>;
-impl ToWrapper for TY_VERSION_INFO {}
-
 pub type InterfaceInfo = Wrapper<TY_INTERFACE_INFO>;
-impl ToWrapper for TY_INTERFACE_INFO {}
-
 pub type NetInfo = Wrapper<TY_DEVICE_NET_INFO>;
-impl ToWrapper for TY_DEVICE_NET_INFO {}
-
 pub type UsbInfo = Wrapper<TY_DEVICE_USB_INFO>;
-impl ToWrapper for TY_DEVICE_USB_INFO {}
-
 pub type DeviceBaseInfo = Wrapper<TY_DEVICE_BASE_INFO>;
-impl ToWrapper for TY_DEVICE_BASE_INFO {}
 
 #[derive(Debug)]
 pub struct Context(pub(crate) PhantomData<()>);
+
+impl Drop for Context {
+    fn drop(&mut self) {
+        ty_deinit_lib().unwrap()
+    }
+}
 
 impl Context {
     pub fn new() -> Self {
@@ -157,17 +157,28 @@ impl Context {
     }
 }
 
-impl Drop for Context {
+#[derive(Debug)]
+pub struct InterfaceHandle<'ctx> {
+    handle: TY_INTERFACE_HANDLE,
+    pub ctx: &'ctx Context,
+}
+
+impl Drop for InterfaceHandle<'_> {
     fn drop(&mut self) {
-        ty_deinit_lib().unwrap()
+        ty_close_interface(self)
     }
 }
 
-
 #[derive(Debug)]
-pub struct InterfaceHandle<'a> {
-    handle: TY_INTERFACE_HANDLE,
-    _ctx: &'a Context,
+pub struct DeviceHandle<'iface, 'ctx> {
+    handle: TY_DEV_HANDLE,
+    pub iface: &'iface InterfaceHandle<'ctx>,
+}
+
+impl Drop for DeviceHandle<'_, '_> {
+    fn drop(&mut self) {
+        ty_close_device(self, false)
+    }
 }
 
 pub(crate) fn ty_error_string(status: TY_STATUS) -> &'static str {
@@ -184,8 +195,11 @@ pub(crate) fn ty_deinit_lib() -> Result<()> {
 
 pub(crate) fn ty_lib_version() -> Result<VersionInfo> {
     let mut out = std::mem::MaybeUninit::uninit();
-    chkerr(unsafe {TYLibVersion(out.as_mut_ptr())})?;
-    Ok(unsafe { *out.assume_init().as_ref()})
+    let out = unsafe {
+        chkerr(TYLibVersion(out.as_mut_ptr()))?;
+        out.assume_init()
+    };
+    Ok(TransparentWrapper::wrap(out))
 }
 
 pub(crate) fn ty_update_interface_list() -> Result<()> {
@@ -225,7 +239,7 @@ pub(crate) fn ty_has_interface(id: &str) -> Result<bool> {
     Ok(out)
 }
 
-pub(crate) fn ty_open_interface<'a>(ctx: &'a Context, id: &str) -> Result<InterfaceHandle<'a>> {
+pub(crate) fn ty_open_interface<'ctx>(ctx: &'ctx Context, id: &str) -> Result<InterfaceHandle<'ctx>> {
     let mut out = ptr::null_mut();
     let id = CString::new(id).unwrap();
     let id = id.as_ptr();
@@ -237,14 +251,14 @@ pub(crate) fn ty_open_interface<'a>(ctx: &'a Context, id: &str) -> Result<Interf
     }
     Ok(InterfaceHandle{
         handle: out,
-        _ctx: ctx,
+        ctx,
     })
 }
 
-pub(crate) fn ty_close_interface(h: &InterfaceHandle) -> Result<()> {
+pub(crate) fn ty_close_interface(h: &InterfaceHandle) {
     chkerr(unsafe{
         TYCloseInterface(h.handle)
-    })
+    }).unwrap()
 }
 
 pub(crate) fn ty_update_device_list(h: &InterfaceHandle) -> Result<()> {
@@ -284,21 +298,56 @@ pub(crate) fn ty_has_device(h: &InterfaceHandle, id: &str) -> Result<bool> {
     Ok(out)
 }
 
+pub(crate) fn ty_close_device(h: &DeviceHandle, reboot: bool) {
+    chkerr(unsafe{
+        TYCloseDevice(h.handle, reboot)
+    }).unwrap()
+}
 
-// TODO here
-// pub(crate) fn ty_open_device(h: &InterfaceHandle, id: &str) -> Result<InterfaceHandle> {
-//     let mut out = InterfaceHandle(ptr::null_mut());
-//     let id = CString::new(id).unwrap();
-//     let id = id.as_ptr();
-//     chkerr(unsafe{
-//         let out_ptr = transmute(&mut out);
-//         TYOpenInterface(id, out_ptr)
-//     })?;
-//     if out.0.is_null() {
-//         panic!("handle cannot be NULL!");
-//     }
-//     Ok(out)
-// }
+pub(crate) fn ty_open_device<'iface, 'ctx>(h: &'iface InterfaceHandle<'ctx>, id: &str) -> Result<DeviceHandle<'iface, 'ctx>> {
+    let mut out = DeviceHandle{
+        handle: ptr::null_mut(),
+        iface: h,
+    };
+    let mut err_code: TY_FW_ERRORCODE = 0;
+    let id = CString::new(id).unwrap();
+    let id = id.as_ptr();
+    chkerr(unsafe{
+        TYOpenDevice(h.handle, id, &mut out.handle, &mut err_code)
+    })?;
+    if out.handle.is_null() {
+        return Err(DeviceError { errcode: ErrorCode::DevEinval, firmware_errcode: None })
+    }
+
+    if err_code != 0 {
+        return Err(DeviceError {
+            errcode: ErrorCode::DeviceError,
+            firmware_errcode: Some(err_code),
+        })
+    } else {
+        Ok(out)
+    }
+
+}
+
+pub(crate) fn ty_open_device_with_ip<'iface, 'ctx>(h: &'iface InterfaceHandle<'ctx>, ip: &str) -> Result<DeviceHandle<'iface, 'ctx>> {
+    let mut out = DeviceHandle{
+        handle: ptr::null_mut(),
+        iface: h,
+    };
+    let ip = CString::new(ip).unwrap();
+    let ip: *const i8 = ip.as_ptr();
+    chkerr(unsafe{
+        TYOpenDeviceWithIP(h.handle, ip, &mut out.handle)
+    })?;
+    if out.handle.is_null() {
+        return Err(DeviceError { errcode: ErrorCode::DevEinval, firmware_errcode: None })
+    }
+    Ok(out)
+}
+
+// TYGetDeviceInterface, already implemented struct DeviceHandle
+
 
 #[cfg(test)]
 mod tests {
@@ -308,7 +357,7 @@ mod tests {
 
     #[test]
     fn test_basics() {
-        assert_eq!(DeviceError::from_repr(-1002).unwrap(), DeviceError::NotInited);
+        assert_eq!(ErrorCode::from_repr(-1002).unwrap(), ErrorCode::NotInited);
 
         const DEV_NR: usize = 4;
 

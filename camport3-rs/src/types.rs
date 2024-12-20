@@ -1,9 +1,10 @@
+use bytemuck::TransparentWrapper;
 use std::{fmt::{Debug, Display}, net::IpAddr, str::FromStr};
 use serde::{ser::SerializeStruct, Serialize};
 use macaddr::MacAddr;
-use bitflags::bitflags;
+use camport3_sys::*;
 
-use crate::utils::cstr_to_str;
+use crate::utils::{bit_is_set, cstr_to_str};
 use crate::ffi::*;
 
 impl VersionInfo {
@@ -52,48 +53,37 @@ impl InterfaceInfo {
         cstr_to_str(self.0.id.as_ptr())
     }
 
-    pub fn type_(&self) -> InterfaceType {
-       InterfaceType::from_bits(self.0.type_).unwrap()
+    pub fn type_(&self) -> TY_INTERFACE_TYPE {
+        self.0.type_
     }
 
     pub fn net_info(&self) -> Option<&NetInfo> {
+        use TY_INTERFACE_TYPE_LIST::*;
         let t = self.type_();
-        if t.contains(InterfaceType::ETHERNET) || t.contains(InterfaceType::IEEE80211) {
-            Some(self.0.netInfo.as_ref())
+
+        if bit_is_set(t, TY_INTERFACE_ETHERNET)
+        || bit_is_set(t, TY_INTERFACE_IEEE80211) {
+            Some(TransparentWrapper::wrap_ref(&self.0.netInfo))
         } else {
             None
         }
     }
 }
 
-bitflags! {
-    // Attributes can be applied to flags types
-    #[repr(transparent)]
-    #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
-    pub struct InterfaceType: u32 {
-        const UNKNOWN        = 0;
-        const RAW            = 1;
-        const USB            = 2;
-        const ETHERNET       = 4;
-        const IEEE80211      = 8;
-        const ALL            = 0xffff;
-    }
+pub fn fmt_ty_interface_type(self_: TY_INTERFACE_TYPE) -> String {
+    use TY_INTERFACE_TYPE_LIST::*;
+    let names: Vec<_> = [
+        TY_INTERFACE_RAW,
+        TY_INTERFACE_USB,
+        TY_INTERFACE_ETHERNET,
+        TY_INTERFACE_IEEE80211].iter().zip([
+        "RAW", "USB", "ETH", "WIFI"
+    ])
+    .filter(|(tp, _)| bit_is_set(self_, **tp) )
+    .map(|(_, name)| name).collect();
+
+    names.join(",")
 }
-
-impl Display for InterfaceType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-
-        let names: Vec<_> = [InterfaceType::RAW, InterfaceType::USB, InterfaceType::ETHERNET, InterfaceType::IEEE80211].iter().zip([
-            "RAW", "USB", "ETH", "WIFI"
-        ])
-        .filter(|(tp, _)| self.contains(**tp) )
-        .map(|(_, name)| name).collect();
-
-        write!(f, "{}", names.join(","))
-    }
-}
-
-
 
 // pub fn addr_from_arr<const N: usize, const M: usize>(a: [i8; N], n: usize) -> [u8; M] {
 //     let a: [i8; M] = a[..M].try_into().unwrap();
@@ -138,7 +128,7 @@ impl UsbInfo {
 
 impl DeviceBaseInfo {
     pub fn iface(&self) -> &InterfaceInfo {
-        self.0.iface.as_ref()
+        TransparentWrapper::wrap_ref(&self.0.iface)
     }
 
     pub fn id(&self) -> &str {
@@ -158,17 +148,18 @@ impl DeviceBaseInfo {
     }
 
     pub fn hardware_version(&self) -> &VersionInfo {
-        self.0.hardwareVersion.as_ref()
+        TransparentWrapper::wrap_ref(&self.0.hardwareVersion)
     }
 
     pub fn firmware_version(&self) -> &VersionInfo {
-        self.0.firmwareVersion.as_ref()
+        TransparentWrapper::wrap_ref(&self.0.firmwareVersion)
     }
 
     pub fn get_net_info(&self) -> Option<&NetInfo> {
         let t = self.iface().type_();
-        if t.contains(InterfaceType::ETHERNET) || t.contains(InterfaceType::IEEE80211) {
-            Some(unsafe{self.0.__bindgen_anon_1.netInfo.as_ref()}) // better way?
+        if bit_is_set(t, TY_INTERFACE_TYPE_LIST::TY_INTERFACE_ETHERNET)
+        || bit_is_set(t, TY_INTERFACE_TYPE_LIST::TY_INTERFACE_IEEE80211) {
+            Some(TransparentWrapper::wrap_ref(unsafe{&self.0.__bindgen_anon_1.netInfo}))
         } else {
             None
         }
@@ -176,8 +167,8 @@ impl DeviceBaseInfo {
 
     pub fn get_usb_info(&self) -> Option<&UsbInfo> {
         let t = self.iface().type_();
-        if t.contains(InterfaceType::USB) {
-            Some(unsafe { &self.0.__bindgen_anon_1.usbInfo.as_ref() }) // better way?
+        if bit_is_set(t, TY_INTERFACE_TYPE_LIST::TY_INTERFACE_USB) {
+            Some(TransparentWrapper::wrap_ref(unsafe{&self.0.__bindgen_anon_1.usbInfo}))
         } else {
             None
         }
@@ -204,17 +195,18 @@ impl InterfaceHandle<'_> {
     pub fn has_device(&self, id: &str) -> Result<bool> {
         ty_has_device(self, id)
     }
-}
 
-impl Drop for InterfaceHandle<'_> {
-    fn drop(&mut self) {
-        ty_close_interface(self).unwrap()
+    pub fn open_device(&self, id: &str) -> Result<DeviceHandle> {
+        ty_open_device(self, id)
     }
+
+    pub fn open_device_with_ip(&self, ip: &str) -> Result<DeviceHandle> {
+        ty_open_device_with_ip(self, ip)
+    }
+
 }
 
-// function start here
 
-// TODO serialize Information struct to json like
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -233,13 +225,18 @@ mod tests {
     fn test_device() {
         let ctx = setup_context();
 
-        let ifaceh = ctx.open_interface(VALID_ID).unwrap();
-        ifaceh.update_device_list().unwrap();
-        let mut _n = 0;
-        for dev in ifaceh.get_device_list(0).unwrap() {
+        let iface: InterfaceHandle<'_> = ctx.open_interface(VALID_ID).unwrap();
+        iface.update_device_list().unwrap();
+
+        let mut dev_ids = Vec::new();
+        for dev in iface.get_device_list(0).unwrap() {
             assert!(!dev.id().is_empty());
-            _n += 1;
+            dev_ids.push(dev.id().to_owned());
         }
+
+        assert!(dev_ids.len() > 0);
+        let dev_id = &dev_ids[0];
+        let dev = iface.open_device(dev_id).unwrap();
 
     }
 }

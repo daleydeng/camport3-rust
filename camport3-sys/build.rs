@@ -10,7 +10,10 @@ fn main() {
         .header("wrapper.h")
         .clang_arg(format!("-I{prefix}/include"))
         .parse_callbacks(Box::new(bindgen::CargoCallbacks::new()))
-        .default_enum_style(bindgen::EnumVariation::ModuleConsts)
+        .default_enum_style(bindgen::EnumVariation::Rust {non_exhaustive: false})
+        .constified_enum_module("TY_INTERFACE_TYPE_LIST")
+        .constified_enum_module("TY_FW_ERRORCODE_LIST")
+        .constified_enum_module("TY_STATUS_LIST")
         .impl_debug(true)
         // .wrap_static_fns(true) // TODO
     ;

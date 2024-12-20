@@ -1,4 +1,4 @@
-use camport3_rs::Context;
+use camport3_rs::{fmt_ty_interface_type, Context};
 
 fn main() {
     let ctx = Context::new();
@@ -11,7 +11,7 @@ fn main() {
         println!("==== Interface ===");
         println!("name: {}", iface.name());
         println!("id: {}", iface.id());
-        println!("type: {}", iface.type_());
+        println!("type: {}", fmt_ty_interface_type(iface.type_()));
         let netinfo = iface.net_info();
         if let Some(netinfo) = netinfo {
             println!("mac: {}", netinfo.mac());
@@ -25,18 +25,4 @@ fn main() {
     }
 
 
-    // assert_eq!(ver, (3, 6, 66));
-    // ty_init_lib().unwrap();
-
-    // ty_update_interface_list().unwrap();
-    // let n = ty_get_interface_number().unwrap();
-    // assert_eq!(n, DEV_NR);
-
-    // let dev_list = ty_get_interface_list(n).unwrap();
-    // assert_eq!(dev_list.len(), DEV_NR);
-    // // dbg!(dev_list);
-
-    // assert_eq!(DeviceError::from_repr(1002).unwrap(), DeviceError::NotInited);
-
-    // dbg!(ty_error_string(-1001));
 }

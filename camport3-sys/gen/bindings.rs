@@ -60,338 +60,350 @@ pub mod TY_FW_ERRORCODE_LIST {
     pub const TY_FW_ERRORCODE_LASER_INIT_FAILED: Type = 4194304;
 }
 pub type TY_FW_ERRORCODE = u32;
-pub mod TY_EVENT_LIST {
-    pub type Type = i32;
-    pub const TY_EVENT_DEVICE_OFFLINE: Type = -2001;
-    pub const TY_EVENT_LICENSE_ERROR: Type = -2002;
-    pub const TY_EVENT_FW_INIT_ERROR: Type = -2003;
+#[repr(i32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_EVENT_LIST {
+    TY_EVENT_DEVICE_OFFLINE = -2001,
+    TY_EVENT_LICENSE_ERROR = -2002,
+    TY_EVENT_FW_INIT_ERROR = -2003,
 }
-pub use self::TY_EVENT_LIST::Type as TY_ENENT_LIST;
+pub use self::TY_EVENT_LIST as TY_ENENT_LIST;
 pub type TY_EVENT = i32;
 pub type TY_INTERFACE_HANDLE = *mut ::std::os::raw::c_void;
 pub type TY_DEV_HANDLE = *mut ::std::os::raw::c_void;
-pub mod TY_DEVICE_COMPONENT_LIST {
-    #[doc = "@breif  Device Component list\n A device contains several component.\n Each component can be controlled by its own features, such as image width, exposure time, etc..\n@see To Know how to get feature information please refer to sample code DumpAllFeatures"]
-    pub type Type = u32;
+impl TY_DEVICE_COMPONENT_LIST {
+    pub const TY_COMPONENT_RGB_CAM: TY_DEVICE_COMPONENT_LIST =
+        TY_DEVICE_COMPONENT_LIST::TY_COMPONENT_RGB_CAM_LEFT;
+}
+#[repr(u32)]
+#[doc = "@breif  Device Component list\n A device contains several component.\n Each component can be controlled by its own features, such as image width, exposure time, etc..\n@see To Know how to get feature information please refer to sample code DumpAllFeatures"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_DEVICE_COMPONENT_LIST {
     #[doc = "< Abstract component stands for whole device, always enabled"]
-    pub const TY_COMPONENT_DEVICE: Type = 2147483648;
+    TY_COMPONENT_DEVICE = 2147483648,
     #[doc = "< Depth camera"]
-    pub const TY_COMPONENT_DEPTH_CAM: Type = 65536;
+    TY_COMPONENT_DEPTH_CAM = 65536,
     #[doc = "< Left IR camera"]
-    pub const TY_COMPONENT_IR_CAM_LEFT: Type = 262144;
+    TY_COMPONENT_IR_CAM_LEFT = 262144,
     #[doc = "< Right IR camera"]
-    pub const TY_COMPONENT_IR_CAM_RIGHT: Type = 524288;
+    TY_COMPONENT_IR_CAM_RIGHT = 524288,
     #[doc = "< Left RGB camera"]
-    pub const TY_COMPONENT_RGB_CAM_LEFT: Type = 1048576;
+    TY_COMPONENT_RGB_CAM_LEFT = 1048576,
     #[doc = "< Right RGB camera"]
-    pub const TY_COMPONENT_RGB_CAM_RIGHT: Type = 2097152;
+    TY_COMPONENT_RGB_CAM_RIGHT = 2097152,
     #[doc = "< Laser"]
-    pub const TY_COMPONENT_LASER: Type = 4194304;
+    TY_COMPONENT_LASER = 4194304,
     #[doc = "< Inertial Measurement Unit"]
-    pub const TY_COMPONENT_IMU: Type = 8388608;
+    TY_COMPONENT_IMU = 8388608,
     #[doc = "< virtual component for brightness histogram of ir"]
-    pub const TY_COMPONENT_BRIGHT_HISTO: Type = 16777216;
+    TY_COMPONENT_BRIGHT_HISTO = 16777216,
     #[doc = "< virtual component for device storage"]
-    pub const TY_COMPONENT_STORAGE: Type = 33554432;
-    #[doc = "< Some device has only one RGB camera, map it to left"]
-    pub const TY_COMPONENT_RGB_CAM: Type = 1048576;
+    TY_COMPONENT_STORAGE = 33554432,
 }
 pub type TY_COMPONENT_ID = u32;
-pub mod TY_FEATURE_TYPE_LIST {
-    #[doc = "Feature Format Type definitions"]
-    pub type Type = u32;
-    pub const TY_FEATURE_INT: Type = 4096;
-    pub const TY_FEATURE_FLOAT: Type = 8192;
-    pub const TY_FEATURE_ENUM: Type = 12288;
-    pub const TY_FEATURE_BOOL: Type = 16384;
-    pub const TY_FEATURE_STRING: Type = 20480;
-    pub const TY_FEATURE_BYTEARRAY: Type = 24576;
-    pub const TY_FEATURE_STRUCT: Type = 28672;
+#[repr(u32)]
+#[doc = "Feature Format Type definitions"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_FEATURE_TYPE_LIST {
+    TY_FEATURE_INT = 4096,
+    TY_FEATURE_FLOAT = 8192,
+    TY_FEATURE_ENUM = 12288,
+    TY_FEATURE_BOOL = 16384,
+    TY_FEATURE_STRING = 20480,
+    TY_FEATURE_BYTEARRAY = 24576,
+    TY_FEATURE_STRUCT = 28672,
 }
 pub type TY_FEATURE_TYPE = u32;
-pub mod TY_FEATURE_ID_LIST {
-    #[doc = "feature for component definitions"]
-    pub type Type = u32;
+impl TY_FEATURE_ID_LIST {
+    pub const TY_FOC_CALIB_START: TY_FEATURE_ID_LIST =
+        TY_FEATURE_ID_LIST::TY_INT_RGB_FLASHLIGHT_INTENSITY;
+}
+#[repr(u32)]
+#[doc = "feature for component definitions"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_FEATURE_ID_LIST {
     #[doc = "< see TY_CAMERA_INTRINSIC"]
-    pub const TY_STRUCT_CAM_INTRINSIC: Type = 28672;
+    TY_STRUCT_CAM_INTRINSIC = 28672,
     #[doc = "< extrinsic between  depth cam and current component , see TY_CAMERA_EXTRINSIC"]
-    pub const TY_STRUCT_EXTRINSIC_TO_DEPTH: Type = 28673;
+    TY_STRUCT_EXTRINSIC_TO_DEPTH = 28673,
     #[doc = "< extrinsic between  left IR and current compoent, see TY_CAMERA_EXTRINSIC"]
-    pub const TY_STRUCT_EXTRINSIC_TO_IR_LEFT: Type = 28674;
+    TY_STRUCT_EXTRINSIC_TO_IR_LEFT = 28674,
     #[doc = "< see TY_CAMERA_DISTORTION"]
-    pub const TY_STRUCT_CAM_DISTORTION: Type = 28678;
+    TY_STRUCT_CAM_DISTORTION = 28678,
     #[doc = "< see TY_CAMERA_CALIB_INFO"]
-    pub const TY_STRUCT_CAM_CALIB_DATA: Type = 28679;
+    TY_STRUCT_CAM_CALIB_DATA = 28679,
     #[doc = "< the rectified intrinsic. see TY_CAMERA_INTRINSIC"]
-    pub const TY_STRUCT_CAM_RECTIFIED_INTRI: Type = 28680;
+    TY_STRUCT_CAM_RECTIFIED_INTRI = 28680,
     #[doc = "< used for reading/writing custom block"]
-    pub const TY_BYTEARRAY_CUSTOM_BLOCK: Type = 24586;
+    TY_BYTEARRAY_CUSTOM_BLOCK = 24586,
     #[doc = "< used for reading/writing fpn block"]
-    pub const TY_BYTEARRAY_ISP_BLOCK: Type = 24587;
-    pub const TY_INT_PERSISTENT_IP: Type = 4112;
-    pub const TY_INT_PERSISTENT_SUBMASK: Type = 4113;
-    pub const TY_INT_PERSISTENT_GATEWAY: Type = 4114;
-    pub const TY_BOOL_GVSP_RESEND: Type = 16403;
+    TY_BYTEARRAY_ISP_BLOCK = 24587,
+    TY_INT_PERSISTENT_IP = 4112,
+    TY_INT_PERSISTENT_SUBMASK = 4113,
+    TY_INT_PERSISTENT_GATEWAY = 4114,
+    TY_BOOL_GVSP_RESEND = 16403,
     #[doc = "< microseconds"]
-    pub const TY_INT_PACKET_DELAY: Type = 4116;
-    pub const TY_INT_ACCEPTABLE_PERCENT: Type = 4117;
+    TY_INT_PACKET_DELAY = 4116,
+    TY_INT_ACCEPTABLE_PERCENT = 4117,
     #[doc = "< Ntp server IP"]
-    pub const TY_INT_NTP_SERVER_IP: Type = 4118;
-    pub const TY_INT_PACKET_SIZE: Type = 4119;
+    TY_INT_NTP_SERVER_IP = 4118,
+    TY_INT_PACKET_SIZE = 4119,
     #[doc = "< milliseconds"]
-    pub const TY_INT_LINK_CMD_TIMEOUT: Type = 4120;
+    TY_INT_LINK_CMD_TIMEOUT = 4120,
     #[doc = "< statistical information, see TY_CAMERA_STATISTICS"]
-    pub const TY_STRUCT_CAM_STATISTICS: Type = 28927;
-    pub const TY_INT_WIDTH_MAX: Type = 4352;
-    pub const TY_INT_HEIGHT_MAX: Type = 4353;
-    pub const TY_INT_OFFSET_X: Type = 4354;
-    pub const TY_INT_OFFSET_Y: Type = 4355;
+    TY_STRUCT_CAM_STATISTICS = 28927,
+    TY_INT_WIDTH_MAX = 4352,
+    TY_INT_HEIGHT_MAX = 4353,
+    TY_INT_OFFSET_X = 4354,
+    TY_INT_OFFSET_Y = 4355,
     #[doc = "< Image width"]
-    pub const TY_INT_WIDTH: Type = 4356;
+    TY_INT_WIDTH = 4356,
     #[doc = "< Image height"]
-    pub const TY_INT_HEIGHT: Type = 4357;
+    TY_INT_HEIGHT = 4357,
     #[doc = "< Resolution-PixelFromat mode, see TY_IMAGE_MODE_LIST"]
-    pub const TY_ENUM_IMAGE_MODE: Type = 12553;
+    TY_ENUM_IMAGE_MODE = 12553,
     #[doc = "@brief scale unit\ndepth image is uint16 pixel format with default millimeter unit ,for some device  can output Sub-millimeter accuracy data\nthe acutal depth (mm)= PixelValue * ScaleUnit"]
-    pub const TY_FLOAT_SCALE_UNIT: Type = 8458;
+    TY_FLOAT_SCALE_UNIT = 8458,
     #[doc = "< Trigger POL, see TY_TRIGGER_POL_LIST"]
-    pub const TY_ENUM_TRIGGER_POL: Type = 12801;
+    TY_ENUM_TRIGGER_POL = 12801,
     #[doc = "< Number of frames captured per trigger"]
-    pub const TY_INT_FRAME_PER_TRIGGER: Type = 4610;
+    TY_INT_FRAME_PER_TRIGGER = 4610,
     #[doc = "< param of trigger, see TY_TRIGGER_PARAM"]
-    pub const TY_STRUCT_TRIGGER_PARAM: Type = 29987;
+    TY_STRUCT_TRIGGER_PARAM = 29987,
     #[doc = "< param of trigger, see TY_TRIGGER_PARAM_EX"]
-    pub const TY_STRUCT_TRIGGER_PARAM_EX: Type = 29989;
+    TY_STRUCT_TRIGGER_PARAM_EX = 29989,
     #[doc = "< param of trigger mode 20, see TY_TRIGGER_TIMER_LIST"]
-    pub const TY_STRUCT_TRIGGER_TIMER_LIST: Type = 29990;
+    TY_STRUCT_TRIGGER_TIMER_LIST = 29990,
     #[doc = "< param of trigger mode 21, see TY_TRIGGER_TIMER_PERIOD"]
-    pub const TY_STRUCT_TRIGGER_TIMER_PERIOD: Type = 29991;
+    TY_STRUCT_TRIGGER_TIMER_PERIOD = 29991,
     #[doc = "< Keep Alive switch"]
-    pub const TY_BOOL_KEEP_ALIVE_ONOFF: Type = 16899;
+    TY_BOOL_KEEP_ALIVE_ONOFF = 16899,
     #[doc = "< Keep Alive timeout"]
-    pub const TY_INT_KEEP_ALIVE_TIMEOUT: Type = 4612;
+    TY_INT_KEEP_ALIVE_TIMEOUT = 4612,
     #[doc = "< Cmos sync switch"]
-    pub const TY_BOOL_CMOS_SYNC: Type = 16901;
+    TY_BOOL_CMOS_SYNC = 16901,
     #[doc = "< Trigger delay time, in microseconds"]
-    pub const TY_INT_TRIGGER_DELAY_US: Type = 4614;
+    TY_INT_TRIGGER_DELAY_US = 4614,
     #[doc = "< Trigger out IO"]
-    pub const TY_BOOL_TRIGGER_OUT_IO: Type = 16903;
+    TY_BOOL_TRIGGER_OUT_IO = 16903,
     #[doc = "< Trigger duration time, in microseconds"]
-    pub const TY_INT_TRIGGER_DURATION_US: Type = 4616;
+    TY_INT_TRIGGER_DURATION_US = 4616,
     #[doc = "< stream async switch, see TY_STREAM_ASYNC_MODE"]
-    pub const TY_ENUM_STREAM_ASYNC: Type = 12809;
+    TY_ENUM_STREAM_ASYNC = 12809,
     #[doc = "< capture time in multi-ir"]
-    pub const TY_INT_CAPTURE_TIME_US: Type = 4624;
+    TY_INT_CAPTURE_TIME_US = 4624,
     #[doc = "< see TY_TIME_SYNC_TYPE"]
-    pub const TY_ENUM_TIME_SYNC_TYPE: Type = 12817;
+    TY_ENUM_TIME_SYNC_TYPE = 12817,
     #[doc = "< time sync done status"]
-    pub const TY_BOOL_TIME_SYNC_READY: Type = 16914;
+    TY_BOOL_TIME_SYNC_READY = 16914,
     #[doc = "< Enable switch for floodlight used in ir component"]
-    pub const TY_BOOL_IR_FLASHLIGHT: Type = 16915;
+    TY_BOOL_IR_FLASHLIGHT = 16915,
     #[doc = "< ir component flashlight intensity level"]
-    pub const TY_INT_IR_FLASHLIGHT_INTENSITY: Type = 4628;
+    TY_INT_IR_FLASHLIGHT_INTENSITY = 4628,
     #[doc = "< Enable switch for floodlight used in rgb component"]
-    pub const TY_BOOL_RGB_FLASHLIGHT: Type = 16929;
+    TY_BOOL_RGB_FLASHLIGHT = 16929,
     #[doc = "< rgb component flashlight intensity level"]
-    pub const TY_INT_RGB_FLASHLIGHT_INTENSITY: Type = 4642;
+    TY_INT_RGB_FLASHLIGHT_INTENSITY = 4642,
     #[doc = "< DO_0 workmode, see TY_DO_WORKMODE"]
-    pub const TY_STRUCT_DO0_WORKMODE: Type = 29205;
+    TY_STRUCT_DO0_WORKMODE = 29205,
     #[doc = "< DI_0 workmode, see TY_DI_WORKMODE"]
-    pub const TY_STRUCT_DI0_WORKMODE: Type = 29206;
+    TY_STRUCT_DI0_WORKMODE = 29206,
     #[doc = "< DO_1 workmode, see TY_DO_WORKMODE"]
-    pub const TY_STRUCT_DO1_WORKMODE: Type = 29207;
+    TY_STRUCT_DO1_WORKMODE = 29207,
     #[doc = "< DI_1 workmode, see TY_DI_WORKMODE"]
-    pub const TY_STRUCT_DI1_WORKMODE: Type = 29208;
+    TY_STRUCT_DI1_WORKMODE = 29208,
     #[doc = "< DO_2 workmode, see TY_DO_WORKMODE"]
-    pub const TY_STRUCT_DO2_WORKMODE: Type = 29209;
+    TY_STRUCT_DO2_WORKMODE = 29209,
     #[doc = "< DI_2 workmode, see TY_DI_WORKMODE"]
-    pub const TY_STRUCT_DI2_WORKMODE: Type = 29216;
-    pub const TY_ENUM_CONFIG_MODE: Type = 12833;
-    pub const TY_FOC_CALIB_START: Type = 4642;
+    TY_STRUCT_DI2_WORKMODE = 29216,
+    TY_ENUM_CONFIG_MODE = 12833,
     #[doc = "< Auto exposure switch"]
-    pub const TY_BOOL_AUTO_EXPOSURE: Type = 17152;
+    TY_BOOL_AUTO_EXPOSURE = 17152,
     #[doc = "< Exposure time"]
-    pub const TY_INT_EXPOSURE_TIME: Type = 4865;
+    TY_INT_EXPOSURE_TIME = 4865,
     #[doc = "< Auto gain switch"]
-    pub const TY_BOOL_AUTO_GAIN: Type = 17154;
+    TY_BOOL_AUTO_GAIN = 17154,
     #[doc = "< Sensor Gain"]
-    pub const TY_INT_GAIN: Type = 4867;
+    TY_INT_GAIN = 4867,
     #[doc = "< Auto white balance"]
-    pub const TY_BOOL_AUTO_AWB: Type = 17156;
+    TY_BOOL_AUTO_AWB = 17156,
     #[doc = "< region of aec statistics, see TY_AEC_ROI_PARAM"]
-    pub const TY_STRUCT_AEC_ROI: Type = 29445;
+    TY_STRUCT_AEC_ROI = 29445,
     #[doc = "< tof sensor hdr ratio for depth"]
-    pub const TY_INT_TOF_HDR_RATIO: Type = 4870;
+    TY_INT_TOF_HDR_RATIO = 4870,
     #[doc = "< tof jitter threshold for depth"]
-    pub const TY_INT_TOF_JITTER_THRESHOLD: Type = 4871;
+    TY_INT_TOF_JITTER_THRESHOLD = 4871,
     #[doc = "< Laser power level"]
-    pub const TY_INT_LASER_POWER: Type = 5376;
+    TY_INT_LASER_POWER = 5376,
     #[doc = "< Laser auto ctrl"]
-    pub const TY_BOOL_LASER_AUTO_CTRL: Type = 17665;
-    pub const TY_STRUCT_LASER_PATTERN: Type = 29954;
-    pub const TY_INT_LASER_CAM_TRIG_POS: Type = 5379;
-    pub const TY_INT_LASER_CAM_TRIG_LEN: Type = 5380;
-    pub const TY_INT_LASER_LUT_TRIG_POS: Type = 5381;
-    pub const TY_INT_LASER_LUT_NUM: Type = 5382;
-    pub const TY_INT_LASER_PATTERN_OFFSET: Type = 5383;
-    pub const TY_INT_LASER_MIRROR_NUM: Type = 5384;
-    pub const TY_INT_LASER_MIRROR_SEL: Type = 5385;
-    pub const TY_INT_LASER_LUT_IDX: Type = 5386;
-    pub const TY_INT_LASER_FACET_IDX: Type = 5387;
-    pub const TY_INT_LASER_FACET_POS: Type = 5388;
-    pub const TY_INT_LASER_MODE: Type = 5389;
-    pub const TY_INT_CONST_DRV_DUTY: Type = 5390;
+    TY_BOOL_LASER_AUTO_CTRL = 17665,
+    TY_STRUCT_LASER_PATTERN = 29954,
+    TY_INT_LASER_CAM_TRIG_POS = 5379,
+    TY_INT_LASER_CAM_TRIG_LEN = 5380,
+    TY_INT_LASER_LUT_TRIG_POS = 5381,
+    TY_INT_LASER_LUT_NUM = 5382,
+    TY_INT_LASER_PATTERN_OFFSET = 5383,
+    TY_INT_LASER_MIRROR_NUM = 5384,
+    TY_INT_LASER_MIRROR_SEL = 5385,
+    TY_INT_LASER_LUT_IDX = 5386,
+    TY_INT_LASER_FACET_IDX = 5387,
+    TY_INT_LASER_FACET_POS = 5388,
+    TY_INT_LASER_MODE = 5389,
+    TY_INT_CONST_DRV_DUTY = 5390,
     #[doc = "< Laser enable by device index"]
-    pub const TY_STRUCT_LASER_ENABLE_BY_IDX: Type = 30000;
+    TY_STRUCT_LASER_ENABLE_BY_IDX = 30000,
     #[doc = "< Laser power by device index"]
-    pub const TY_STRUCT_LASER_POWER_BY_IDX: Type = 30001;
+    TY_STRUCT_LASER_POWER_BY_IDX = 30001,
     #[doc = "< Flood enable by device index"]
-    pub const TY_STRUCT_FLOOD_ENABLE_BY_IDX: Type = 30002;
+    TY_STRUCT_FLOOD_ENABLE_BY_IDX = 30002,
     #[doc = "< Flood power by device index"]
-    pub const TY_STRUCT_FLOOD_POWER_BY_IDX: Type = 30003;
+    TY_STRUCT_FLOOD_POWER_BY_IDX = 30003,
     #[doc = "< Output undistorted image"]
-    pub const TY_BOOL_UNDISTORTION: Type = 17680;
+    TY_BOOL_UNDISTORTION = 17680,
     #[doc = "< Output bright histogram"]
-    pub const TY_BOOL_BRIGHTNESS_HISTOGRAM: Type = 17681;
+    TY_BOOL_BRIGHTNESS_HISTOGRAM = 17681,
     #[doc = "< Do depth image postproc"]
-    pub const TY_BOOL_DEPTH_POSTPROC: Type = 17682;
+    TY_BOOL_DEPTH_POSTPROC = 17682,
     #[doc = "< Gain of R channel"]
-    pub const TY_INT_R_GAIN: Type = 5408;
+    TY_INT_R_GAIN = 5408,
     #[doc = "< Gain of G channel"]
-    pub const TY_INT_G_GAIN: Type = 5409;
+    TY_INT_G_GAIN = 5409,
     #[doc = "< Gain of B channel"]
-    pub const TY_INT_B_GAIN: Type = 5410;
+    TY_INT_B_GAIN = 5410,
     #[doc = "< Analog gain"]
-    pub const TY_INT_ANALOG_GAIN: Type = 5412;
+    TY_INT_ANALOG_GAIN = 5412,
     #[doc = "< HDR func enable/disable"]
-    pub const TY_BOOL_HDR: Type = 17701;
+    TY_BOOL_HDR = 17701,
     #[doc = "< HDR parameters"]
-    pub const TY_BYTEARRAY_HDR_PARAMETER: Type = 25894;
-    pub const TY_INT_AE_TARGET_Y: Type = 5415;
+    TY_BYTEARRAY_HDR_PARAMETER = 25894,
+    TY_INT_AE_TARGET_Y = 5415,
     #[doc = "< IMU Data Onoff"]
-    pub const TY_BOOL_IMU_DATA_ONOFF: Type = 17920;
+    TY_BOOL_IMU_DATA_ONOFF = 17920,
     #[doc = "< IMU acc bias matrix, see TY_ACC_BIAS"]
-    pub const TY_STRUCT_IMU_ACC_BIAS: Type = 30209;
+    TY_STRUCT_IMU_ACC_BIAS = 30209,
     #[doc = "< IMU acc misalignment matrix, see TY_ACC_MISALIGNMENT"]
-    pub const TY_STRUCT_IMU_ACC_MISALIGNMENT: Type = 30210;
+    TY_STRUCT_IMU_ACC_MISALIGNMENT = 30210,
     #[doc = "< IMU acc scale matrix, see TY_ACC_SCALE"]
-    pub const TY_STRUCT_IMU_ACC_SCALE: Type = 30211;
+    TY_STRUCT_IMU_ACC_SCALE = 30211,
     #[doc = "< IMU gyro bias matrix, see TY_GYRO_BIAS"]
-    pub const TY_STRUCT_IMU_GYRO_BIAS: Type = 30212;
+    TY_STRUCT_IMU_GYRO_BIAS = 30212,
     #[doc = "< IMU gyro misalignment matrix, see TY_GYRO_MISALIGNMENT"]
-    pub const TY_STRUCT_IMU_GYRO_MISALIGNMENT: Type = 30213;
+    TY_STRUCT_IMU_GYRO_MISALIGNMENT = 30213,
     #[doc = "< IMU gyro scale matrix, see TY_GYRO_SCALE"]
-    pub const TY_STRUCT_IMU_GYRO_SCALE: Type = 30214;
+    TY_STRUCT_IMU_GYRO_SCALE = 30214,
     #[doc = "< IMU camera to imu matrix, see TY_CAMERA_TO_IMU"]
-    pub const TY_STRUCT_IMU_CAM_TO_IMU: Type = 30215;
+    TY_STRUCT_IMU_CAM_TO_IMU = 30215,
     #[doc = "< IMU fps, see TY_IMU_FPS_LIST"]
-    pub const TY_ENUM_IMU_FPS: Type = 13832;
+    TY_ENUM_IMU_FPS = 13832,
     #[doc = "< SGBM image channel num"]
-    pub const TY_INT_SGBM_IMAGE_NUM: Type = 5648;
+    TY_INT_SGBM_IMAGE_NUM = 5648,
     #[doc = "< SGBM disparity num"]
-    pub const TY_INT_SGBM_DISPARITY_NUM: Type = 5649;
+    TY_INT_SGBM_DISPARITY_NUM = 5649,
     #[doc = "< SGBM disparity offset"]
-    pub const TY_INT_SGBM_DISPARITY_OFFSET: Type = 5650;
+    TY_INT_SGBM_DISPARITY_OFFSET = 5650,
     #[doc = "< SGBM match window height"]
-    pub const TY_INT_SGBM_MATCH_WIN_HEIGHT: Type = 5651;
+    TY_INT_SGBM_MATCH_WIN_HEIGHT = 5651,
     #[doc = "< SGBM semi global param p1"]
-    pub const TY_INT_SGBM_SEMI_PARAM_P1: Type = 5652;
+    TY_INT_SGBM_SEMI_PARAM_P1 = 5652,
     #[doc = "< SGBM semi global param p2"]
-    pub const TY_INT_SGBM_SEMI_PARAM_P2: Type = 5653;
+    TY_INT_SGBM_SEMI_PARAM_P2 = 5653,
     #[doc = "< SGBM uniqueness factor param"]
-    pub const TY_INT_SGBM_UNIQUE_FACTOR: Type = 5654;
+    TY_INT_SGBM_UNIQUE_FACTOR = 5654,
     #[doc = "< SGBM uniqueness min absolute diff"]
-    pub const TY_INT_SGBM_UNIQUE_ABSDIFF: Type = 5655;
+    TY_INT_SGBM_UNIQUE_ABSDIFF = 5655,
     #[doc = "< SGBM uniqueness max cost param"]
-    pub const TY_INT_SGBM_UNIQUE_MAX_COST: Type = 5656;
+    TY_INT_SGBM_UNIQUE_MAX_COST = 5656,
     #[doc = "< SGBM enable half window size"]
-    pub const TY_BOOL_SGBM_HFILTER_HALF_WIN: Type = 17945;
+    TY_BOOL_SGBM_HFILTER_HALF_WIN = 17945,
     #[doc = "< SGBM match window width"]
-    pub const TY_INT_SGBM_MATCH_WIN_WIDTH: Type = 5658;
+    TY_INT_SGBM_MATCH_WIN_WIDTH = 5658,
     #[doc = "< SGBM enable median filter"]
-    pub const TY_BOOL_SGBM_MEDFILTER: Type = 17947;
+    TY_BOOL_SGBM_MEDFILTER = 17947,
     #[doc = "< SGBM enable left right consist check"]
-    pub const TY_BOOL_SGBM_LRC: Type = 17948;
+    TY_BOOL_SGBM_LRC = 17948,
     #[doc = "< SGBM max diff"]
-    pub const TY_INT_SGBM_LRC_DIFF: Type = 5661;
+    TY_INT_SGBM_LRC_DIFF = 5661,
     #[doc = "< SGBM median filter thresh"]
-    pub const TY_INT_SGBM_MEDFILTER_THRESH: Type = 5662;
+    TY_INT_SGBM_MEDFILTER_THRESH = 5662,
     #[doc = "< SGBM semi global param p1 scale"]
-    pub const TY_INT_SGBM_SEMI_PARAM_P1_SCALE: Type = 5663;
+    TY_INT_SGBM_SEMI_PARAM_P1_SCALE = 5663,
     #[doc = "< Phase num to calc a depth"]
-    pub const TY_INT_SGPM_PHASE_NUM: Type = 5664;
+    TY_INT_SGPM_PHASE_NUM = 5664,
     #[doc = "< phase scale when calc a depth"]
-    pub const TY_INT_SGPM_NORMAL_PHASE_SCALE: Type = 5665;
+    TY_INT_SGPM_NORMAL_PHASE_SCALE = 5665,
     #[doc = "< Phase offset when calc a depth"]
-    pub const TY_INT_SGPM_NORMAL_PHASE_OFFSET: Type = 5666;
+    TY_INT_SGPM_NORMAL_PHASE_OFFSET = 5666,
     #[doc = "< Reference Phase scale when calc a depth"]
-    pub const TY_INT_SGPM_REF_PHASE_SCALE: Type = 5667;
+    TY_INT_SGPM_REF_PHASE_SCALE = 5667,
     #[doc = "< Reference Phase offset when calc a depth"]
-    pub const TY_INT_SGPM_REF_PHASE_OFFSET: Type = 5668;
+    TY_INT_SGPM_REF_PHASE_OFFSET = 5668,
     #[doc = "< Epipolar Constraint pattern scale"]
-    pub const TY_FLOAT_SGPM_EPI_HS: Type = 9765;
+    TY_FLOAT_SGPM_EPI_HS = 9765,
     #[doc = "< Epipolar Constraint pattern offset"]
-    pub const TY_INT_SGPM_EPI_HF: Type = 5670;
+    TY_INT_SGPM_EPI_HF = 5670,
     #[doc = "< Epipolar Constraint enable"]
-    pub const TY_BOOL_SGPM_EPI_EN: Type = 17959;
+    TY_BOOL_SGPM_EPI_EN = 17959,
     #[doc = "< Epipolar Constraint channel0"]
-    pub const TY_INT_SGPM_EPI_CH0: Type = 5672;
+    TY_INT_SGPM_EPI_CH0 = 5672,
     #[doc = "< Epipolar Constraint channel1"]
-    pub const TY_INT_SGPM_EPI_CH1: Type = 5673;
+    TY_INT_SGPM_EPI_CH1 = 5673,
     #[doc = "< Epipolar Constraint thresh"]
-    pub const TY_INT_SGPM_EPI_THRESH: Type = 5674;
+    TY_INT_SGPM_EPI_THRESH = 5674,
     #[doc = "< Phase order filter enable"]
-    pub const TY_BOOL_SGPM_ORDER_FILTER_EN: Type = 17963;
+    TY_BOOL_SGPM_ORDER_FILTER_EN = 17963,
     #[doc = "< Phase order filter channel"]
-    pub const TY_INT_SGPM_ORDER_FILTER_CHN: Type = 5676;
+    TY_INT_SGPM_ORDER_FILTER_CHN = 5676,
     #[doc = "< min depth in mm output"]
-    pub const TY_INT_DEPTH_MIN_MM: Type = 5677;
+    TY_INT_DEPTH_MIN_MM = 5677,
     #[doc = "< max depth in mm ouput"]
-    pub const TY_INT_DEPTH_MAX_MM: Type = 5678;
+    TY_INT_DEPTH_MAX_MM = 5678,
     #[doc = "< Phase compute group attribute"]
-    pub const TY_STRUCT_PHC_GROUP_ATTR: Type = 30480;
+    TY_STRUCT_PHC_GROUP_ATTR = 30480,
     #[doc = "< the quality of generated depth, see TY_DEPTH_QUALITY"]
-    pub const TY_ENUM_DEPTH_QUALITY: Type = 14592;
+    TY_ENUM_DEPTH_QUALITY = 14592,
     #[doc = "< the threshold of the noise filter, 0 for disabled"]
-    pub const TY_INT_FILTER_THRESHOLD: Type = 6401;
+    TY_INT_FILTER_THRESHOLD = 6401,
     #[doc = "< the frequency channel of tof"]
-    pub const TY_INT_TOF_CHANNEL: Type = 6402;
+    TY_INT_TOF_CHANNEL = 6402,
     #[doc = "< the threshold of the tof modulation"]
-    pub const TY_INT_TOF_MODULATION_THRESHOLD: Type = 6403;
+    TY_INT_TOF_MODULATION_THRESHOLD = 6403,
     #[doc = "< the frequency of tof, see TY_TOF_FREQ"]
-    pub const TY_STRUCT_TOF_FREQ: Type = 30980;
+    TY_STRUCT_TOF_FREQ = 30980,
     #[doc = "< cooperation if multi-device used"]
-    pub const TY_BOOL_TOF_ANTI_INTERFERENCE: Type = 18693;
+    TY_BOOL_TOF_ANTI_INTERFERENCE = 18693,
     #[doc = "< the index of anti-sunlight"]
-    pub const TY_INT_TOF_ANTI_SUNLIGHT_INDEX: Type = 6406;
+    TY_INT_TOF_ANTI_SUNLIGHT_INDEX = 6406,
     #[doc = "< the max size of speckle"]
-    pub const TY_INT_MAX_SPECKLE_SIZE: Type = 6407;
+    TY_INT_MAX_SPECKLE_SIZE = 6407,
     #[doc = "< the max diff of speckle"]
-    pub const TY_INT_MAX_SPECKLE_DIFF: Type = 6408;
+    TY_INT_MAX_SPECKLE_DIFF = 6408,
 }
 pub type TY_FEATURE_ID = u32;
-pub mod TY_CONFIG_MODE_LIST {
-    pub type Type = u32;
-    pub const TY_CONFIG_MODE_PRESET0: Type = 0;
-    pub const TY_CONFIG_MODE_PRESET1: Type = 1;
-    pub const TY_CONFIG_MODE_PRESET2: Type = 2;
-    pub const TY_CONFIG_MODE_USERSET0: Type = 65536;
-    pub const TY_CONFIG_MODE_USERSET1: Type = 65537;
-    pub const TY_CONFIG_MODE_USERSET2: Type = 65538;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_CONFIG_MODE_LIST {
+    TY_CONFIG_MODE_PRESET0 = 0,
+    TY_CONFIG_MODE_PRESET1 = 1,
+    TY_CONFIG_MODE_PRESET2 = 2,
+    TY_CONFIG_MODE_USERSET0 = 65536,
+    TY_CONFIG_MODE_USERSET1 = 65537,
+    TY_CONFIG_MODE_USERSET2 = 65538,
 }
 pub type TY_CONFIG_MODE = u32;
-pub mod TY_DEPTH_QUALITY_LIST {
-    pub type Type = u32;
-    pub const TY_DEPTH_QUALITY_BASIC: Type = 1;
-    pub const TY_DEPTH_QUALITY_MEDIUM: Type = 2;
-    pub const TY_DEPTH_QUALITY_HIGH: Type = 4;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_DEPTH_QUALITY_LIST {
+    TY_DEPTH_QUALITY_BASIC = 1,
+    TY_DEPTH_QUALITY_MEDIUM = 2,
+    TY_DEPTH_QUALITY_HIGH = 4,
 }
 pub type TY_DEPTH_QUALITY = u32;
-pub mod TY_TRIGGER_POL_LIST {
-    #[doc = "set external trigger signal edge"]
-    pub type Type = u32;
-    pub const TY_TRIGGER_POL_FALLINGEDGE: Type = 0;
-    pub const TY_TRIGGER_POL_RISINGEDGE: Type = 1;
+#[repr(u32)]
+#[doc = "set external trigger signal edge"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_TRIGGER_POL_LIST {
+    TY_TRIGGER_POL_FALLINGEDGE = 0,
+    TY_TRIGGER_POL_RISINGEDGE = 1,
 }
 pub type TY_TRIGGER_POL = u32;
 pub mod TY_INTERFACE_TYPE_LIST {
@@ -405,869 +417,1145 @@ pub mod TY_INTERFACE_TYPE_LIST {
     pub const TY_INTERFACE_ALL: Type = 65535;
 }
 pub type TY_INTERFACE_TYPE = u32;
-pub mod TY_ACCESS_MODE_LIST {
-    #[doc = "Indicate a feature is readable or writable\n@see TYGetFeatureInfo"]
-    pub type Type = u32;
-    pub const TY_ACCESS_READABLE: Type = 1;
-    pub const TY_ACCESS_WRITABLE: Type = 2;
+#[repr(u32)]
+#[doc = "Indicate a feature is readable or writable\n@see TYGetFeatureInfo"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_ACCESS_MODE_LIST {
+    TY_ACCESS_READABLE = 1,
+    TY_ACCESS_WRITABLE = 2,
 }
 pub type TY_ACCESS_MODE = u8;
-pub mod TY_STREAM_ASYNC_MODE_LIST {
-    #[doc = "stream async mode"]
-    pub type Type = u32;
-    pub const TY_STREAM_ASYNC_OFF: Type = 0;
-    pub const TY_STREAM_ASYNC_DEPTH: Type = 1;
-    pub const TY_STREAM_ASYNC_RGB: Type = 2;
-    pub const TY_STREAM_ASYNC_DEPTH_RGB: Type = 3;
-    pub const TY_STREAM_ASYNC_ALL: Type = 255;
+#[repr(u32)]
+#[doc = "stream async mode"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_STREAM_ASYNC_MODE_LIST {
+    TY_STREAM_ASYNC_OFF = 0,
+    TY_STREAM_ASYNC_DEPTH = 1,
+    TY_STREAM_ASYNC_RGB = 2,
+    TY_STREAM_ASYNC_DEPTH_RGB = 3,
+    TY_STREAM_ASYNC_ALL = 255,
 }
 pub type TY_STREAM_ASYNC_MODE = u8;
-pub mod TY_PIXEL_BITS_LIST {
-    #[doc = "Pixel size type definitions\nto define the pixel size in bits\n@see TY_PIXEL_FORMAT_LIST"]
-    pub type Type = u32;
-    pub const TY_PIXEL_8BIT: Type = 268435456;
-    pub const TY_PIXEL_16BIT: Type = 536870912;
-    pub const TY_PIXEL_24BIT: Type = 805306368;
-    pub const TY_PIXEL_32BIT: Type = 1073741824;
-    pub const TY_PIXEL_10BIT: Type = 1342177280;
-    pub const TY_PIXEL_12BIT: Type = 1610612736;
-    pub const TY_PIXEL_14BIT: Type = 1879048192;
-    pub const TY_PIXEL_48BIT: Type = 2147483648;
-    pub const TY_PIXEL_64BIT: Type = 2684354560;
+#[repr(u32)]
+#[doc = "Pixel size type definitions\nto define the pixel size in bits\n@see TY_PIXEL_FORMAT_LIST"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_PIXEL_BITS_LIST {
+    TY_PIXEL_8BIT = 268435456,
+    TY_PIXEL_16BIT = 536870912,
+    TY_PIXEL_24BIT = 805306368,
+    TY_PIXEL_32BIT = 1073741824,
+    TY_PIXEL_10BIT = 1342177280,
+    TY_PIXEL_12BIT = 1610612736,
+    TY_PIXEL_14BIT = 1879048192,
+    TY_PIXEL_48BIT = 2147483648,
+    TY_PIXEL_64BIT = 2684354560,
 }
 pub type TY_PIXEL_BITS = u32;
-pub mod TY_PIXEL_FORMAT_LIST {
-    #[doc = "pixel format definitions"]
-    pub type Type = u32;
-    pub const TY_PIXEL_FORMAT_UNDEFINED: Type = 0;
+impl TY_PIXEL_FORMAT_LIST {
+    pub const TY_PIXEL_FORMAT_BAYER8GRBG: TY_PIXEL_FORMAT_LIST =
+        TY_PIXEL_FORMAT_LIST::TY_PIXEL_FORMAT_BAYER8GB;
+}
+impl TY_PIXEL_FORMAT_LIST {
+    pub const TY_PIXEL_FORMAT_BAYER8RGGB: TY_PIXEL_FORMAT_LIST =
+        TY_PIXEL_FORMAT_LIST::TY_PIXEL_FORMAT_BAYER8BG;
+}
+impl TY_PIXEL_FORMAT_LIST {
+    pub const TY_PIXEL_FORMAT_BAYER8GBRG: TY_PIXEL_FORMAT_LIST =
+        TY_PIXEL_FORMAT_LIST::TY_PIXEL_FORMAT_BAYER8GR;
+}
+impl TY_PIXEL_FORMAT_LIST {
+    pub const TY_PIXEL_FORMAT_BAYER8BGGR: TY_PIXEL_FORMAT_LIST =
+        TY_PIXEL_FORMAT_LIST::TY_PIXEL_FORMAT_BAYER8RG;
+}
+#[repr(u32)]
+#[doc = "pixel format definitions"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_PIXEL_FORMAT_LIST {
+    TY_PIXEL_FORMAT_UNDEFINED = 0,
     #[doc = "< 0x10000000"]
-    pub const TY_PIXEL_FORMAT_MONO: Type = 268435456;
+    TY_PIXEL_FORMAT_MONO = 268435456,
     #[doc = "< 0x11000000"]
-    pub const TY_PIXEL_FORMAT_BAYER8GB: Type = 285212672;
+    TY_PIXEL_FORMAT_BAYER8GB = 285212672,
     #[doc = "< 0x12000000"]
-    pub const TY_PIXEL_FORMAT_BAYER8BG: Type = 301989888;
+    TY_PIXEL_FORMAT_BAYER8BG = 301989888,
     #[doc = "< 0x13000000"]
-    pub const TY_PIXEL_FORMAT_BAYER8GR: Type = 318767104;
+    TY_PIXEL_FORMAT_BAYER8GR = 318767104,
     #[doc = "< 0x14000000"]
-    pub const TY_PIXEL_FORMAT_BAYER8RG: Type = 335544320;
-    pub const TY_PIXEL_FORMAT_BAYER8GRBG: Type = 285212672;
-    pub const TY_PIXEL_FORMAT_BAYER8RGGB: Type = 301989888;
-    pub const TY_PIXEL_FORMAT_BAYER8GBRG: Type = 318767104;
-    pub const TY_PIXEL_FORMAT_BAYER8BGGR: Type = 335544320;
+    TY_PIXEL_FORMAT_BAYER8RG = 335544320,
     #[doc = "< 0x50000000"]
-    pub const TY_PIXEL_FORMAT_CSI_MONO10: Type = 1342177280;
+    TY_PIXEL_FORMAT_CSI_MONO10 = 1342177280,
     #[doc = "< 0x51000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER10GRBG: Type = 1358954496;
+    TY_PIXEL_FORMAT_CSI_BAYER10GRBG = 1358954496,
     #[doc = "< 0x52000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER10RGGB: Type = 1375731712;
+    TY_PIXEL_FORMAT_CSI_BAYER10RGGB = 1375731712,
     #[doc = "< 0x53000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER10GBRG: Type = 1392508928;
+    TY_PIXEL_FORMAT_CSI_BAYER10GBRG = 1392508928,
     #[doc = "< 0x54000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER10BGGR: Type = 1409286144;
+    TY_PIXEL_FORMAT_CSI_BAYER10BGGR = 1409286144,
     #[doc = "< 0x60000000"]
-    pub const TY_PIXEL_FORMAT_CSI_MONO12: Type = 1610612736;
+    TY_PIXEL_FORMAT_CSI_MONO12 = 1610612736,
     #[doc = "< 0x61000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER12GRBG: Type = 1627389952;
+    TY_PIXEL_FORMAT_CSI_BAYER12GRBG = 1627389952,
     #[doc = "< 0x62000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER12RGGB: Type = 1644167168;
+    TY_PIXEL_FORMAT_CSI_BAYER12RGGB = 1644167168,
     #[doc = "< 0x63000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER12GBRG: Type = 1660944384;
+    TY_PIXEL_FORMAT_CSI_BAYER12GBRG = 1660944384,
     #[doc = "< 0x64000000"]
-    pub const TY_PIXEL_FORMAT_CSI_BAYER12BGGR: Type = 1677721600;
+    TY_PIXEL_FORMAT_CSI_BAYER12BGGR = 1677721600,
     #[doc = "< 0x20000000"]
-    pub const TY_PIXEL_FORMAT_DEPTH16: Type = 536870912;
+    TY_PIXEL_FORMAT_DEPTH16 = 536870912,
     #[doc = "< 0x21000000, yvyu422"]
-    pub const TY_PIXEL_FORMAT_YVYU: Type = 553648128;
+    TY_PIXEL_FORMAT_YVYU = 553648128,
     #[doc = "< 0x22000000, yuyv422"]
-    pub const TY_PIXEL_FORMAT_YUYV: Type = 570425344;
+    TY_PIXEL_FORMAT_YUYV = 570425344,
     #[doc = "< 0x23000000,"]
-    pub const TY_PIXEL_FORMAT_MONO16: Type = 587202560;
+    TY_PIXEL_FORMAT_MONO16 = 587202560,
     #[doc = "< 0xa4000000,"]
-    pub const TY_PIXEL_FORMAT_TOF_IR_MONO16: Type = 2751463424;
+    TY_PIXEL_FORMAT_TOF_IR_MONO16 = 2751463424,
     #[doc = "< 0x30000000"]
-    pub const TY_PIXEL_FORMAT_RGB: Type = 805306368;
+    TY_PIXEL_FORMAT_RGB = 805306368,
     #[doc = "< 0x31000000"]
-    pub const TY_PIXEL_FORMAT_BGR: Type = 822083584;
+    TY_PIXEL_FORMAT_BGR = 822083584,
     #[doc = "< 0x32000000"]
-    pub const TY_PIXEL_FORMAT_JPEG: Type = 838860800;
+    TY_PIXEL_FORMAT_JPEG = 838860800,
     #[doc = "< 0x33000000"]
-    pub const TY_PIXEL_FORMAT_MJPG: Type = 855638016;
+    TY_PIXEL_FORMAT_MJPG = 855638016,
     #[doc = "< 0x80000000"]
-    pub const TY_PIXEL_FORMAT_RGB48: Type = 2147483648;
+    TY_PIXEL_FORMAT_RGB48 = 2147483648,
     #[doc = "< 0x81000000"]
-    pub const TY_PIXEL_FORMAT_BGR48: Type = 2164260864;
+    TY_PIXEL_FORMAT_BGR48 = 2164260864,
     #[doc = "< 0x82000000"]
-    pub const TY_PIXEL_FORMAT_XYZ48: Type = 2181038080;
+    TY_PIXEL_FORMAT_XYZ48 = 2181038080,
 }
 pub type TY_PIXEL_FORMAT = u32;
-pub mod TY_RESOLUTION_MODE_LIST {
-    #[doc = "predefined resolution list"]
-    pub type Type = u32;
+#[repr(u32)]
+#[doc = "predefined resolution list"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_RESOLUTION_MODE_LIST {
     #[doc = "< 0x000a0078"]
-    pub const TY_RESOLUTION_MODE_160x100: Type = 655460;
+    TY_RESOLUTION_MODE_160x100 = 655460,
     #[doc = "< 0x000a0078"]
-    pub const TY_RESOLUTION_MODE_160x120: Type = 655480;
+    TY_RESOLUTION_MODE_160x120 = 655480,
     #[doc = "< 0x000f0140"]
-    pub const TY_RESOLUTION_MODE_240x320: Type = 983360;
+    TY_RESOLUTION_MODE_240x320 = 983360,
     #[doc = "< 0x001400b4"]
-    pub const TY_RESOLUTION_MODE_320x180: Type = 1310900;
+    TY_RESOLUTION_MODE_320x180 = 1310900,
     #[doc = "< 0x001400c8"]
-    pub const TY_RESOLUTION_MODE_320x200: Type = 1310920;
+    TY_RESOLUTION_MODE_320x200 = 1310920,
     #[doc = "< 0x001400f0"]
-    pub const TY_RESOLUTION_MODE_320x240: Type = 1310960;
+    TY_RESOLUTION_MODE_320x240 = 1310960,
     #[doc = "< 0x001e0280"]
-    pub const TY_RESOLUTION_MODE_480x640: Type = 1966720;
+    TY_RESOLUTION_MODE_480x640 = 1966720,
     #[doc = "< 0x00280168"]
-    pub const TY_RESOLUTION_MODE_640x360: Type = 2621800;
+    TY_RESOLUTION_MODE_640x360 = 2621800,
     #[doc = "< 0x00280190"]
-    pub const TY_RESOLUTION_MODE_640x400: Type = 2621840;
+    TY_RESOLUTION_MODE_640x400 = 2621840,
     #[doc = "< 0x002801e0"]
-    pub const TY_RESOLUTION_MODE_640x480: Type = 2621920;
+    TY_RESOLUTION_MODE_640x480 = 2621920,
     #[doc = "< 0x003c0500"]
-    pub const TY_RESOLUTION_MODE_960x1280: Type = 3933440;
+    TY_RESOLUTION_MODE_960x1280 = 3933440,
     #[doc = "< 0x005002d0"]
-    pub const TY_RESOLUTION_MODE_1280x720: Type = 5243600;
+    TY_RESOLUTION_MODE_1280x720 = 5243600,
     #[doc = "< 0x00500320"]
-    pub const TY_RESOLUTION_MODE_1280x800: Type = 5243680;
+    TY_RESOLUTION_MODE_1280x800 = 5243680,
     #[doc = "< 0x005003c0"]
-    pub const TY_RESOLUTION_MODE_1280x960: Type = 5243840;
+    TY_RESOLUTION_MODE_1280x960 = 5243840,
     #[doc = "< 0x006404b0"]
-    pub const TY_RESOLUTION_MODE_1600x1200: Type = 6554800;
+    TY_RESOLUTION_MODE_1600x1200 = 6554800,
     #[doc = "< 0x00320258"]
-    pub const TY_RESOLUTION_MODE_800x600: Type = 3277400;
+    TY_RESOLUTION_MODE_800x600 = 3277400,
     #[doc = "< 0x00780438"]
-    pub const TY_RESOLUTION_MODE_1920x1080: Type = 7865400;
+    TY_RESOLUTION_MODE_1920x1080 = 7865400,
     #[doc = "< 0x00a00780"]
-    pub const TY_RESOLUTION_MODE_2560x1920: Type = 10487680;
+    TY_RESOLUTION_MODE_2560x1920 = 10487680,
     #[doc = "< 0x00a20798"]
-    pub const TY_RESOLUTION_MODE_2592x1944: Type = 10618776;
+    TY_RESOLUTION_MODE_2592x1944 = 10618776,
     #[doc = "< 0x007805a0"]
-    pub const TY_RESOLUTION_MODE_1920x1440: Type = 7865760;
+    TY_RESOLUTION_MODE_1920x1440 = 7865760,
     #[doc = "< 0x000f0060"]
-    pub const TY_RESOLUTION_MODE_240x96: Type = 983136;
+    TY_RESOLUTION_MODE_240x96 = 983136,
     #[doc = "< 0x00800600"]
-    pub const TY_RESOLUTION_MODE_2048x1536: Type = 8390144;
+    TY_RESOLUTION_MODE_2048x1536 = 8390144,
 }
 pub type TY_RESOLUTION_MODE = i32;
-pub mod TY_IMAGE_MODE_LIST {
-    #[doc = "@brief Predefined Image Mode List\n image mode controls image resolution & format\n predefined image modes named like TY_IMAGE_MODE_MONO_160x120,TY_IMAGE_MODE_RGB_1280x960"]
-    pub type Type = u32;
-    pub const TY_IMAGE_MODE_MONO_160x100: Type = 269090916;
-    pub const TY_IMAGE_MODE_MONO_160x120: Type = 269090936;
-    pub const TY_IMAGE_MODE_MONO_320x180: Type = 269746356;
-    pub const TY_IMAGE_MODE_MONO_320x200: Type = 269746376;
-    pub const TY_IMAGE_MODE_MONO_320x240: Type = 269746416;
-    pub const TY_IMAGE_MODE_MONO_480x640: Type = 270402176;
-    pub const TY_IMAGE_MODE_MONO_640x360: Type = 271057256;
-    pub const TY_IMAGE_MODE_MONO_640x400: Type = 271057296;
-    pub const TY_IMAGE_MODE_MONO_640x480: Type = 271057376;
-    pub const TY_IMAGE_MODE_MONO_960x1280: Type = 272368896;
-    pub const TY_IMAGE_MODE_MONO_1280x720: Type = 273679056;
-    pub const TY_IMAGE_MODE_MONO_1280x960: Type = 273679296;
-    pub const TY_IMAGE_MODE_MONO_1280x800: Type = 273679136;
-    pub const TY_IMAGE_MODE_MONO_1600x1200: Type = 274990256;
-    pub const TY_IMAGE_MODE_MONO_800x600: Type = 271712856;
-    pub const TY_IMAGE_MODE_MONO_1920x1080: Type = 276300856;
-    pub const TY_IMAGE_MODE_MONO_2560x1920: Type = 278923136;
-    pub const TY_IMAGE_MODE_MONO_2592x1944: Type = 279054232;
-    pub const TY_IMAGE_MODE_MONO_1920x1440: Type = 276301216;
-    pub const TY_IMAGE_MODE_MONO_2048x1536: Type = 276825600;
-    pub const TY_IMAGE_MODE_MONO_240x96: Type = 269418592;
-    pub const TY_IMAGE_MODE_MONO16_160x100: Type = 587858020;
-    pub const TY_IMAGE_MODE_MONO16_160x120: Type = 587858040;
-    pub const TY_IMAGE_MODE_MONO16_320x180: Type = 588513460;
-    pub const TY_IMAGE_MODE_MONO16_320x200: Type = 588513480;
-    pub const TY_IMAGE_MODE_MONO16_320x240: Type = 588513520;
-    pub const TY_IMAGE_MODE_MONO16_480x640: Type = 589169280;
-    pub const TY_IMAGE_MODE_MONO16_640x360: Type = 589824360;
-    pub const TY_IMAGE_MODE_MONO16_640x400: Type = 589824400;
-    pub const TY_IMAGE_MODE_MONO16_640x480: Type = 589824480;
-    pub const TY_IMAGE_MODE_MONO16_960x1280: Type = 591136000;
-    pub const TY_IMAGE_MODE_MONO16_1280x720: Type = 592446160;
-    pub const TY_IMAGE_MODE_MONO16_1280x960: Type = 592446400;
-    pub const TY_IMAGE_MODE_MONO16_1280x800: Type = 592446240;
-    pub const TY_IMAGE_MODE_MONO16_1600x1200: Type = 593757360;
-    pub const TY_IMAGE_MODE_MONO16_800x600: Type = 590479960;
-    pub const TY_IMAGE_MODE_MONO16_1920x1080: Type = 595067960;
-    pub const TY_IMAGE_MODE_MONO16_2560x1920: Type = 597690240;
-    pub const TY_IMAGE_MODE_MONO16_2592x1944: Type = 597821336;
-    pub const TY_IMAGE_MODE_MONO16_1920x1440: Type = 595068320;
-    pub const TY_IMAGE_MODE_MONO16_2048x1536: Type = 595592704;
-    pub const TY_IMAGE_MODE_MONO16_240x96: Type = 588185696;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_160x100: Type = 2752118884;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_160x120: Type = 2752118904;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_320x180: Type = 2752774324;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_320x200: Type = 2752774344;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_320x240: Type = 2752774384;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_480x640: Type = 2753430144;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_640x360: Type = 2754085224;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_640x400: Type = 2754085264;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_640x480: Type = 2754085344;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_960x1280: Type = 2755396864;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1280x720: Type = 2756707024;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1280x960: Type = 2756707264;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1280x800: Type = 2756707104;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1600x1200: Type = 2758018224;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_800x600: Type = 2754740824;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1920x1080: Type = 2759328824;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_2560x1920: Type = 2761951104;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_2592x1944: Type = 2762082200;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_1920x1440: Type = 2759329184;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_2048x1536: Type = 2759853568;
-    pub const TY_IMAGE_MODE_TOF_IR_MONO16_240x96: Type = 2752446560;
-    pub const TY_IMAGE_MODE_DEPTH16_160x100: Type = 537526372;
-    pub const TY_IMAGE_MODE_DEPTH16_160x120: Type = 537526392;
-    pub const TY_IMAGE_MODE_DEPTH16_320x180: Type = 538181812;
-    pub const TY_IMAGE_MODE_DEPTH16_320x200: Type = 538181832;
-    pub const TY_IMAGE_MODE_DEPTH16_320x240: Type = 538181872;
-    pub const TY_IMAGE_MODE_DEPTH16_480x640: Type = 538837632;
-    pub const TY_IMAGE_MODE_DEPTH16_640x360: Type = 539492712;
-    pub const TY_IMAGE_MODE_DEPTH16_640x400: Type = 539492752;
-    pub const TY_IMAGE_MODE_DEPTH16_640x480: Type = 539492832;
-    pub const TY_IMAGE_MODE_DEPTH16_960x1280: Type = 540804352;
-    pub const TY_IMAGE_MODE_DEPTH16_1280x720: Type = 542114512;
-    pub const TY_IMAGE_MODE_DEPTH16_1280x960: Type = 542114752;
-    pub const TY_IMAGE_MODE_DEPTH16_1280x800: Type = 542114592;
-    pub const TY_IMAGE_MODE_DEPTH16_1600x1200: Type = 543425712;
-    pub const TY_IMAGE_MODE_DEPTH16_800x600: Type = 540148312;
-    pub const TY_IMAGE_MODE_DEPTH16_1920x1080: Type = 544736312;
-    pub const TY_IMAGE_MODE_DEPTH16_2560x1920: Type = 547358592;
-    pub const TY_IMAGE_MODE_DEPTH16_2592x1944: Type = 547489688;
-    pub const TY_IMAGE_MODE_DEPTH16_1920x1440: Type = 544736672;
-    pub const TY_IMAGE_MODE_DEPTH16_2048x1536: Type = 545261056;
-    pub const TY_IMAGE_MODE_DEPTH16_240x96: Type = 537854048;
-    pub const TY_IMAGE_MODE_YVYU_160x100: Type = 554303588;
-    pub const TY_IMAGE_MODE_YVYU_160x120: Type = 554303608;
-    pub const TY_IMAGE_MODE_YVYU_320x180: Type = 554959028;
-    pub const TY_IMAGE_MODE_YVYU_320x200: Type = 554959048;
-    pub const TY_IMAGE_MODE_YVYU_320x240: Type = 554959088;
-    pub const TY_IMAGE_MODE_YVYU_480x640: Type = 555614848;
-    pub const TY_IMAGE_MODE_YVYU_640x360: Type = 556269928;
-    pub const TY_IMAGE_MODE_YVYU_640x400: Type = 556269968;
-    pub const TY_IMAGE_MODE_YVYU_640x480: Type = 556270048;
-    pub const TY_IMAGE_MODE_YVYU_960x1280: Type = 557581568;
-    pub const TY_IMAGE_MODE_YVYU_1280x720: Type = 558891728;
-    pub const TY_IMAGE_MODE_YVYU_1280x960: Type = 558891968;
-    pub const TY_IMAGE_MODE_YVYU_1280x800: Type = 558891808;
-    pub const TY_IMAGE_MODE_YVYU_1600x1200: Type = 560202928;
-    pub const TY_IMAGE_MODE_YVYU_800x600: Type = 556925528;
-    pub const TY_IMAGE_MODE_YVYU_1920x1080: Type = 561513528;
-    pub const TY_IMAGE_MODE_YVYU_2560x1920: Type = 564135808;
-    pub const TY_IMAGE_MODE_YVYU_2592x1944: Type = 564266904;
-    pub const TY_IMAGE_MODE_YVYU_1920x1440: Type = 561513888;
-    pub const TY_IMAGE_MODE_YVYU_2048x1536: Type = 562038272;
-    pub const TY_IMAGE_MODE_YVYU_240x96: Type = 554631264;
-    pub const TY_IMAGE_MODE_YUYV_160x100: Type = 571080804;
-    pub const TY_IMAGE_MODE_YUYV_160x120: Type = 571080824;
-    pub const TY_IMAGE_MODE_YUYV_320x180: Type = 571736244;
-    pub const TY_IMAGE_MODE_YUYV_320x200: Type = 571736264;
-    pub const TY_IMAGE_MODE_YUYV_320x240: Type = 571736304;
-    pub const TY_IMAGE_MODE_YUYV_480x640: Type = 572392064;
-    pub const TY_IMAGE_MODE_YUYV_640x360: Type = 573047144;
-    pub const TY_IMAGE_MODE_YUYV_640x400: Type = 573047184;
-    pub const TY_IMAGE_MODE_YUYV_640x480: Type = 573047264;
-    pub const TY_IMAGE_MODE_YUYV_960x1280: Type = 574358784;
-    pub const TY_IMAGE_MODE_YUYV_1280x720: Type = 575668944;
-    pub const TY_IMAGE_MODE_YUYV_1280x960: Type = 575669184;
-    pub const TY_IMAGE_MODE_YUYV_1280x800: Type = 575669024;
-    pub const TY_IMAGE_MODE_YUYV_1600x1200: Type = 576980144;
-    pub const TY_IMAGE_MODE_YUYV_800x600: Type = 573702744;
-    pub const TY_IMAGE_MODE_YUYV_1920x1080: Type = 578290744;
-    pub const TY_IMAGE_MODE_YUYV_2560x1920: Type = 580913024;
-    pub const TY_IMAGE_MODE_YUYV_2592x1944: Type = 581044120;
-    pub const TY_IMAGE_MODE_YUYV_1920x1440: Type = 578291104;
-    pub const TY_IMAGE_MODE_YUYV_2048x1536: Type = 578815488;
-    pub const TY_IMAGE_MODE_YUYV_240x96: Type = 571408480;
-    pub const TY_IMAGE_MODE_RGB_160x100: Type = 805961828;
-    pub const TY_IMAGE_MODE_RGB_160x120: Type = 805961848;
-    pub const TY_IMAGE_MODE_RGB_320x180: Type = 806617268;
-    pub const TY_IMAGE_MODE_RGB_320x200: Type = 806617288;
-    pub const TY_IMAGE_MODE_RGB_320x240: Type = 806617328;
-    pub const TY_IMAGE_MODE_RGB_480x640: Type = 807273088;
-    pub const TY_IMAGE_MODE_RGB_640x360: Type = 807928168;
-    pub const TY_IMAGE_MODE_RGB_640x400: Type = 807928208;
-    pub const TY_IMAGE_MODE_RGB_640x480: Type = 807928288;
-    pub const TY_IMAGE_MODE_RGB_960x1280: Type = 809239808;
-    pub const TY_IMAGE_MODE_RGB_1280x720: Type = 810549968;
-    pub const TY_IMAGE_MODE_RGB_1280x960: Type = 810550208;
-    pub const TY_IMAGE_MODE_RGB_1280x800: Type = 810550048;
-    pub const TY_IMAGE_MODE_RGB_1600x1200: Type = 811861168;
-    pub const TY_IMAGE_MODE_RGB_800x600: Type = 808583768;
-    pub const TY_IMAGE_MODE_RGB_1920x1080: Type = 813171768;
-    pub const TY_IMAGE_MODE_RGB_2560x1920: Type = 815794048;
-    pub const TY_IMAGE_MODE_RGB_2592x1944: Type = 815925144;
-    pub const TY_IMAGE_MODE_RGB_1920x1440: Type = 813172128;
-    pub const TY_IMAGE_MODE_RGB_2048x1536: Type = 813696512;
-    pub const TY_IMAGE_MODE_RGB_240x96: Type = 806289504;
-    pub const TY_IMAGE_MODE_JPEG_160x100: Type = 839516260;
-    pub const TY_IMAGE_MODE_JPEG_160x120: Type = 839516280;
-    pub const TY_IMAGE_MODE_JPEG_320x180: Type = 840171700;
-    pub const TY_IMAGE_MODE_JPEG_320x200: Type = 840171720;
-    pub const TY_IMAGE_MODE_JPEG_320x240: Type = 840171760;
-    pub const TY_IMAGE_MODE_JPEG_480x640: Type = 840827520;
-    pub const TY_IMAGE_MODE_JPEG_640x360: Type = 841482600;
-    pub const TY_IMAGE_MODE_JPEG_640x400: Type = 841482640;
-    pub const TY_IMAGE_MODE_JPEG_640x480: Type = 841482720;
-    pub const TY_IMAGE_MODE_JPEG_960x1280: Type = 842794240;
-    pub const TY_IMAGE_MODE_JPEG_1280x720: Type = 844104400;
-    pub const TY_IMAGE_MODE_JPEG_1280x960: Type = 844104640;
-    pub const TY_IMAGE_MODE_JPEG_1280x800: Type = 844104480;
-    pub const TY_IMAGE_MODE_JPEG_1600x1200: Type = 845415600;
-    pub const TY_IMAGE_MODE_JPEG_800x600: Type = 842138200;
-    pub const TY_IMAGE_MODE_JPEG_1920x1080: Type = 846726200;
-    pub const TY_IMAGE_MODE_JPEG_2560x1920: Type = 849348480;
-    pub const TY_IMAGE_MODE_JPEG_2592x1944: Type = 849479576;
-    pub const TY_IMAGE_MODE_JPEG_1920x1440: Type = 846726560;
-    pub const TY_IMAGE_MODE_JPEG_2048x1536: Type = 847250944;
-    pub const TY_IMAGE_MODE_JPEG_240x96: Type = 839843936;
-    pub const TY_IMAGE_MODE_BAYER8GB_160x100: Type = 285868132;
-    pub const TY_IMAGE_MODE_BAYER8GB_160x120: Type = 285868152;
-    pub const TY_IMAGE_MODE_BAYER8GB_320x180: Type = 286523572;
-    pub const TY_IMAGE_MODE_BAYER8GB_320x200: Type = 286523592;
-    pub const TY_IMAGE_MODE_BAYER8GB_320x240: Type = 286523632;
-    pub const TY_IMAGE_MODE_BAYER8GB_480x640: Type = 287179392;
-    pub const TY_IMAGE_MODE_BAYER8GB_640x360: Type = 287834472;
-    pub const TY_IMAGE_MODE_BAYER8GB_640x400: Type = 287834512;
-    pub const TY_IMAGE_MODE_BAYER8GB_640x480: Type = 287834592;
-    pub const TY_IMAGE_MODE_BAYER8GB_960x1280: Type = 289146112;
-    pub const TY_IMAGE_MODE_BAYER8GB_1280x720: Type = 290456272;
-    pub const TY_IMAGE_MODE_BAYER8GB_1280x960: Type = 290456512;
-    pub const TY_IMAGE_MODE_BAYER8GB_1280x800: Type = 290456352;
-    pub const TY_IMAGE_MODE_BAYER8GB_1600x1200: Type = 291767472;
-    pub const TY_IMAGE_MODE_BAYER8GB_800x600: Type = 288490072;
-    pub const TY_IMAGE_MODE_BAYER8GB_1920x1080: Type = 293078072;
-    pub const TY_IMAGE_MODE_BAYER8GB_2560x1920: Type = 295700352;
-    pub const TY_IMAGE_MODE_BAYER8GB_2592x1944: Type = 295831448;
-    pub const TY_IMAGE_MODE_BAYER8GB_1920x1440: Type = 293078432;
-    pub const TY_IMAGE_MODE_BAYER8GB_2048x1536: Type = 293602816;
-    pub const TY_IMAGE_MODE_BAYER8GB_240x96: Type = 286195808;
-    pub const TY_IMAGE_MODE_BAYER8BG_160x100: Type = 302645348;
-    pub const TY_IMAGE_MODE_BAYER8BG_160x120: Type = 302645368;
-    pub const TY_IMAGE_MODE_BAYER8BG_320x180: Type = 303300788;
-    pub const TY_IMAGE_MODE_BAYER8BG_320x200: Type = 303300808;
-    pub const TY_IMAGE_MODE_BAYER8BG_320x240: Type = 303300848;
-    pub const TY_IMAGE_MODE_BAYER8BG_480x640: Type = 303956608;
-    pub const TY_IMAGE_MODE_BAYER8BG_640x360: Type = 304611688;
-    pub const TY_IMAGE_MODE_BAYER8BG_640x400: Type = 304611728;
-    pub const TY_IMAGE_MODE_BAYER8BG_640x480: Type = 304611808;
-    pub const TY_IMAGE_MODE_BAYER8BG_960x1280: Type = 305923328;
-    pub const TY_IMAGE_MODE_BAYER8BG_1280x720: Type = 307233488;
-    pub const TY_IMAGE_MODE_BAYER8BG_1280x960: Type = 307233728;
-    pub const TY_IMAGE_MODE_BAYER8BG_1280x800: Type = 307233568;
-    pub const TY_IMAGE_MODE_BAYER8BG_1600x1200: Type = 308544688;
-    pub const TY_IMAGE_MODE_BAYER8BG_800x600: Type = 305267288;
-    pub const TY_IMAGE_MODE_BAYER8BG_1920x1080: Type = 309855288;
-    pub const TY_IMAGE_MODE_BAYER8BG_2560x1920: Type = 312477568;
-    pub const TY_IMAGE_MODE_BAYER8BG_2592x1944: Type = 312608664;
-    pub const TY_IMAGE_MODE_BAYER8BG_1920x1440: Type = 309855648;
-    pub const TY_IMAGE_MODE_BAYER8BG_2048x1536: Type = 310380032;
-    pub const TY_IMAGE_MODE_BAYER8BG_240x96: Type = 302973024;
-    pub const TY_IMAGE_MODE_BAYER8GR_160x100: Type = 319422564;
-    pub const TY_IMAGE_MODE_BAYER8GR_160x120: Type = 319422584;
-    pub const TY_IMAGE_MODE_BAYER8GR_320x180: Type = 320078004;
-    pub const TY_IMAGE_MODE_BAYER8GR_320x200: Type = 320078024;
-    pub const TY_IMAGE_MODE_BAYER8GR_320x240: Type = 320078064;
-    pub const TY_IMAGE_MODE_BAYER8GR_480x640: Type = 320733824;
-    pub const TY_IMAGE_MODE_BAYER8GR_640x360: Type = 321388904;
-    pub const TY_IMAGE_MODE_BAYER8GR_640x400: Type = 321388944;
-    pub const TY_IMAGE_MODE_BAYER8GR_640x480: Type = 321389024;
-    pub const TY_IMAGE_MODE_BAYER8GR_960x1280: Type = 322700544;
-    pub const TY_IMAGE_MODE_BAYER8GR_1280x720: Type = 324010704;
-    pub const TY_IMAGE_MODE_BAYER8GR_1280x960: Type = 324010944;
-    pub const TY_IMAGE_MODE_BAYER8GR_1280x800: Type = 324010784;
-    pub const TY_IMAGE_MODE_BAYER8GR_1600x1200: Type = 325321904;
-    pub const TY_IMAGE_MODE_BAYER8GR_800x600: Type = 322044504;
-    pub const TY_IMAGE_MODE_BAYER8GR_1920x1080: Type = 326632504;
-    pub const TY_IMAGE_MODE_BAYER8GR_2560x1920: Type = 329254784;
-    pub const TY_IMAGE_MODE_BAYER8GR_2592x1944: Type = 329385880;
-    pub const TY_IMAGE_MODE_BAYER8GR_1920x1440: Type = 326632864;
-    pub const TY_IMAGE_MODE_BAYER8GR_2048x1536: Type = 327157248;
-    pub const TY_IMAGE_MODE_BAYER8GR_240x96: Type = 319750240;
-    pub const TY_IMAGE_MODE_BAYER8RG_160x100: Type = 336199780;
-    pub const TY_IMAGE_MODE_BAYER8RG_160x120: Type = 336199800;
-    pub const TY_IMAGE_MODE_BAYER8RG_320x180: Type = 336855220;
-    pub const TY_IMAGE_MODE_BAYER8RG_320x200: Type = 336855240;
-    pub const TY_IMAGE_MODE_BAYER8RG_320x240: Type = 336855280;
-    pub const TY_IMAGE_MODE_BAYER8RG_480x640: Type = 337511040;
-    pub const TY_IMAGE_MODE_BAYER8RG_640x360: Type = 338166120;
-    pub const TY_IMAGE_MODE_BAYER8RG_640x400: Type = 338166160;
-    pub const TY_IMAGE_MODE_BAYER8RG_640x480: Type = 338166240;
-    pub const TY_IMAGE_MODE_BAYER8RG_960x1280: Type = 339477760;
-    pub const TY_IMAGE_MODE_BAYER8RG_1280x720: Type = 340787920;
-    pub const TY_IMAGE_MODE_BAYER8RG_1280x960: Type = 340788160;
-    pub const TY_IMAGE_MODE_BAYER8RG_1280x800: Type = 340788000;
-    pub const TY_IMAGE_MODE_BAYER8RG_1600x1200: Type = 342099120;
-    pub const TY_IMAGE_MODE_BAYER8RG_800x600: Type = 338821720;
-    pub const TY_IMAGE_MODE_BAYER8RG_1920x1080: Type = 343409720;
-    pub const TY_IMAGE_MODE_BAYER8RG_2560x1920: Type = 346032000;
-    pub const TY_IMAGE_MODE_BAYER8RG_2592x1944: Type = 346163096;
-    pub const TY_IMAGE_MODE_BAYER8RG_1920x1440: Type = 343410080;
-    pub const TY_IMAGE_MODE_BAYER8RG_2048x1536: Type = 343934464;
-    pub const TY_IMAGE_MODE_BAYER8RG_240x96: Type = 336527456;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_160x100: Type = 285868132;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_160x120: Type = 285868152;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_320x180: Type = 286523572;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_320x200: Type = 286523592;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_320x240: Type = 286523632;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_480x640: Type = 287179392;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_640x360: Type = 287834472;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_640x400: Type = 287834512;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_640x480: Type = 287834592;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_960x1280: Type = 289146112;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x720: Type = 290456272;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x960: Type = 290456512;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x800: Type = 290456352;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1600x1200: Type = 291767472;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_800x600: Type = 288490072;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1920x1080: Type = 293078072;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_2560x1920: Type = 295700352;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_2592x1944: Type = 295831448;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_1920x1440: Type = 293078432;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_2048x1536: Type = 293602816;
-    pub const TY_IMAGE_MODE_BAYER8GRBG_240x96: Type = 286195808;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_160x100: Type = 302645348;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_160x120: Type = 302645368;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_320x180: Type = 303300788;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_320x200: Type = 303300808;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_320x240: Type = 303300848;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_480x640: Type = 303956608;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_640x360: Type = 304611688;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_640x400: Type = 304611728;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_640x480: Type = 304611808;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_960x1280: Type = 305923328;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x720: Type = 307233488;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x960: Type = 307233728;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x800: Type = 307233568;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1600x1200: Type = 308544688;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_800x600: Type = 305267288;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1920x1080: Type = 309855288;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_2560x1920: Type = 312477568;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_2592x1944: Type = 312608664;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_1920x1440: Type = 309855648;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_2048x1536: Type = 310380032;
-    pub const TY_IMAGE_MODE_BAYER8RGGB_240x96: Type = 302973024;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_160x100: Type = 319422564;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_160x120: Type = 319422584;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_320x180: Type = 320078004;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_320x200: Type = 320078024;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_320x240: Type = 320078064;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_480x640: Type = 320733824;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_640x360: Type = 321388904;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_640x400: Type = 321388944;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_640x480: Type = 321389024;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_960x1280: Type = 322700544;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x720: Type = 324010704;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x960: Type = 324010944;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x800: Type = 324010784;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1600x1200: Type = 325321904;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_800x600: Type = 322044504;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1920x1080: Type = 326632504;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_2560x1920: Type = 329254784;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_2592x1944: Type = 329385880;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_1920x1440: Type = 326632864;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_2048x1536: Type = 327157248;
-    pub const TY_IMAGE_MODE_BAYER8GBRG_240x96: Type = 319750240;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_160x100: Type = 336199780;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_160x120: Type = 336199800;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_320x180: Type = 336855220;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_320x200: Type = 336855240;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_320x240: Type = 336855280;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_480x640: Type = 337511040;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_640x360: Type = 338166120;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_640x400: Type = 338166160;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_640x480: Type = 338166240;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_960x1280: Type = 339477760;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x720: Type = 340787920;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x960: Type = 340788160;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x800: Type = 340788000;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1600x1200: Type = 342099120;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_800x600: Type = 338821720;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1920x1080: Type = 343409720;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_2560x1920: Type = 346032000;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_2592x1944: Type = 346163096;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_1920x1440: Type = 343410080;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_2048x1536: Type = 343934464;
-    pub const TY_IMAGE_MODE_BAYER8BGGR_240x96: Type = 336527456;
-    pub const TY_IMAGE_MODE_CSI_MONO10_160x100: Type = 1342832740;
-    pub const TY_IMAGE_MODE_CSI_MONO10_160x120: Type = 1342832760;
-    pub const TY_IMAGE_MODE_CSI_MONO10_320x180: Type = 1343488180;
-    pub const TY_IMAGE_MODE_CSI_MONO10_320x200: Type = 1343488200;
-    pub const TY_IMAGE_MODE_CSI_MONO10_320x240: Type = 1343488240;
-    pub const TY_IMAGE_MODE_CSI_MONO10_480x640: Type = 1344144000;
-    pub const TY_IMAGE_MODE_CSI_MONO10_640x360: Type = 1344799080;
-    pub const TY_IMAGE_MODE_CSI_MONO10_640x400: Type = 1344799120;
-    pub const TY_IMAGE_MODE_CSI_MONO10_640x480: Type = 1344799200;
-    pub const TY_IMAGE_MODE_CSI_MONO10_960x1280: Type = 1346110720;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1280x720: Type = 1347420880;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1280x960: Type = 1347421120;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1280x800: Type = 1347420960;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1600x1200: Type = 1348732080;
-    pub const TY_IMAGE_MODE_CSI_MONO10_800x600: Type = 1345454680;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1920x1080: Type = 1350042680;
-    pub const TY_IMAGE_MODE_CSI_MONO10_2560x1920: Type = 1352664960;
-    pub const TY_IMAGE_MODE_CSI_MONO10_2592x1944: Type = 1352796056;
-    pub const TY_IMAGE_MODE_CSI_MONO10_1920x1440: Type = 1350043040;
-    pub const TY_IMAGE_MODE_CSI_MONO10_2048x1536: Type = 1350567424;
-    pub const TY_IMAGE_MODE_CSI_MONO10_240x96: Type = 1343160416;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_160x100: Type = 1359609956;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_160x120: Type = 1359609976;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_320x180: Type = 1360265396;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_320x200: Type = 1360265416;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_320x240: Type = 1360265456;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_480x640: Type = 1360921216;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_640x360: Type = 1361576296;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_640x400: Type = 1361576336;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_640x480: Type = 1361576416;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_960x1280: Type = 1362887936;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x720: Type = 1364198096;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x960: Type = 1364198336;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x800: Type = 1364198176;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1600x1200: Type = 1365509296;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_800x600: Type = 1362231896;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1920x1080: Type = 1366819896;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_2560x1920: Type = 1369442176;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_2592x1944: Type = 1369573272;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_1920x1440: Type = 1366820256;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_2048x1536: Type = 1367344640;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GRBG_240x96: Type = 1359937632;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_160x100: Type = 1376387172;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_160x120: Type = 1376387192;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_320x180: Type = 1377042612;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_320x200: Type = 1377042632;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_320x240: Type = 1377042672;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_480x640: Type = 1377698432;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_640x360: Type = 1378353512;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_640x400: Type = 1378353552;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_640x480: Type = 1378353632;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_960x1280: Type = 1379665152;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x720: Type = 1380975312;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x960: Type = 1380975552;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x800: Type = 1380975392;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1600x1200: Type = 1382286512;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_800x600: Type = 1379009112;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1920x1080: Type = 1383597112;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_2560x1920: Type = 1386219392;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_2592x1944: Type = 1386350488;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_1920x1440: Type = 1383597472;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_2048x1536: Type = 1384121856;
-    pub const TY_IMAGE_MODE_CSI_BAYER10RGGB_240x96: Type = 1376714848;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_160x100: Type = 1393164388;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_160x120: Type = 1393164408;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_320x180: Type = 1393819828;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_320x200: Type = 1393819848;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_320x240: Type = 1393819888;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_480x640: Type = 1394475648;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_640x360: Type = 1395130728;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_640x400: Type = 1395130768;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_640x480: Type = 1395130848;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_960x1280: Type = 1396442368;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x720: Type = 1397752528;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x960: Type = 1397752768;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x800: Type = 1397752608;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1600x1200: Type = 1399063728;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_800x600: Type = 1395786328;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1920x1080: Type = 1400374328;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_2560x1920: Type = 1402996608;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_2592x1944: Type = 1403127704;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_1920x1440: Type = 1400374688;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_2048x1536: Type = 1400899072;
-    pub const TY_IMAGE_MODE_CSI_BAYER10GBRG_240x96: Type = 1393492064;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_160x100: Type = 1409941604;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_160x120: Type = 1409941624;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_320x180: Type = 1410597044;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_320x200: Type = 1410597064;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_320x240: Type = 1410597104;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_480x640: Type = 1411252864;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_640x360: Type = 1411907944;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_640x400: Type = 1411907984;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_640x480: Type = 1411908064;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_960x1280: Type = 1413219584;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x720: Type = 1414529744;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x960: Type = 1414529984;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x800: Type = 1414529824;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1600x1200: Type = 1415840944;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_800x600: Type = 1412563544;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1920x1080: Type = 1417151544;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_2560x1920: Type = 1419773824;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_2592x1944: Type = 1419904920;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_1920x1440: Type = 1417151904;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_2048x1536: Type = 1417676288;
-    pub const TY_IMAGE_MODE_CSI_BAYER10BGGR_240x96: Type = 1410269280;
-    pub const TY_IMAGE_MODE_CSI_MONO12_160x100: Type = 1611268196;
-    pub const TY_IMAGE_MODE_CSI_MONO12_160x120: Type = 1611268216;
-    pub const TY_IMAGE_MODE_CSI_MONO12_320x180: Type = 1611923636;
-    pub const TY_IMAGE_MODE_CSI_MONO12_320x200: Type = 1611923656;
-    pub const TY_IMAGE_MODE_CSI_MONO12_320x240: Type = 1611923696;
-    pub const TY_IMAGE_MODE_CSI_MONO12_480x640: Type = 1612579456;
-    pub const TY_IMAGE_MODE_CSI_MONO12_640x360: Type = 1613234536;
-    pub const TY_IMAGE_MODE_CSI_MONO12_640x400: Type = 1613234576;
-    pub const TY_IMAGE_MODE_CSI_MONO12_640x480: Type = 1613234656;
-    pub const TY_IMAGE_MODE_CSI_MONO12_960x1280: Type = 1614546176;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1280x720: Type = 1615856336;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1280x960: Type = 1615856576;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1280x800: Type = 1615856416;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1600x1200: Type = 1617167536;
-    pub const TY_IMAGE_MODE_CSI_MONO12_800x600: Type = 1613890136;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1920x1080: Type = 1618478136;
-    pub const TY_IMAGE_MODE_CSI_MONO12_2560x1920: Type = 1621100416;
-    pub const TY_IMAGE_MODE_CSI_MONO12_2592x1944: Type = 1621231512;
-    pub const TY_IMAGE_MODE_CSI_MONO12_1920x1440: Type = 1618478496;
-    pub const TY_IMAGE_MODE_CSI_MONO12_2048x1536: Type = 1619002880;
-    pub const TY_IMAGE_MODE_CSI_MONO12_240x96: Type = 1611595872;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_160x100: Type = 1628045412;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_160x120: Type = 1628045432;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_320x180: Type = 1628700852;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_320x200: Type = 1628700872;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_320x240: Type = 1628700912;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_480x640: Type = 1629356672;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_640x360: Type = 1630011752;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_640x400: Type = 1630011792;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_640x480: Type = 1630011872;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_960x1280: Type = 1631323392;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x720: Type = 1632633552;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x960: Type = 1632633792;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x800: Type = 1632633632;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1600x1200: Type = 1633944752;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_800x600: Type = 1630667352;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1920x1080: Type = 1635255352;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_2560x1920: Type = 1637877632;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_2592x1944: Type = 1638008728;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_1920x1440: Type = 1635255712;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_2048x1536: Type = 1635780096;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GRBG_240x96: Type = 1628373088;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_160x100: Type = 1644822628;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_160x120: Type = 1644822648;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_320x180: Type = 1645478068;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_320x200: Type = 1645478088;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_320x240: Type = 1645478128;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_480x640: Type = 1646133888;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_640x360: Type = 1646788968;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_640x400: Type = 1646789008;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_640x480: Type = 1646789088;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_960x1280: Type = 1648100608;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x720: Type = 1649410768;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x960: Type = 1649411008;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x800: Type = 1649410848;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1600x1200: Type = 1650721968;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_800x600: Type = 1647444568;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1920x1080: Type = 1652032568;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_2560x1920: Type = 1654654848;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_2592x1944: Type = 1654785944;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_1920x1440: Type = 1652032928;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_2048x1536: Type = 1652557312;
-    pub const TY_IMAGE_MODE_CSI_BAYER12RGGB_240x96: Type = 1645150304;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_160x100: Type = 1661599844;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_160x120: Type = 1661599864;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_320x180: Type = 1662255284;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_320x200: Type = 1662255304;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_320x240: Type = 1662255344;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_480x640: Type = 1662911104;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_640x360: Type = 1663566184;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_640x400: Type = 1663566224;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_640x480: Type = 1663566304;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_960x1280: Type = 1664877824;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x720: Type = 1666187984;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x960: Type = 1666188224;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x800: Type = 1666188064;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1600x1200: Type = 1667499184;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_800x600: Type = 1664221784;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1920x1080: Type = 1668809784;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_2560x1920: Type = 1671432064;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_2592x1944: Type = 1671563160;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_1920x1440: Type = 1668810144;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_2048x1536: Type = 1669334528;
-    pub const TY_IMAGE_MODE_CSI_BAYER12GBRG_240x96: Type = 1661927520;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_160x100: Type = 1678377060;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_160x120: Type = 1678377080;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_320x180: Type = 1679032500;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_320x200: Type = 1679032520;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_320x240: Type = 1679032560;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_480x640: Type = 1679688320;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_640x360: Type = 1680343400;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_640x400: Type = 1680343440;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_640x480: Type = 1680343520;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_960x1280: Type = 1681655040;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x720: Type = 1682965200;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x960: Type = 1682965440;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x800: Type = 1682965280;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1600x1200: Type = 1684276400;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_800x600: Type = 1680999000;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1920x1080: Type = 1685587000;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_2560x1920: Type = 1688209280;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_2592x1944: Type = 1688340376;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_1920x1440: Type = 1685587360;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_2048x1536: Type = 1686111744;
-    pub const TY_IMAGE_MODE_CSI_BAYER12BGGR_240x96: Type = 1678704736;
-    pub const TY_IMAGE_MODE_MJPG_160x100: Type = 856293476;
-    pub const TY_IMAGE_MODE_MJPG_160x120: Type = 856293496;
-    pub const TY_IMAGE_MODE_MJPG_320x180: Type = 856948916;
-    pub const TY_IMAGE_MODE_MJPG_320x200: Type = 856948936;
-    pub const TY_IMAGE_MODE_MJPG_320x240: Type = 856948976;
-    pub const TY_IMAGE_MODE_MJPG_480x640: Type = 857604736;
-    pub const TY_IMAGE_MODE_MJPG_640x360: Type = 858259816;
-    pub const TY_IMAGE_MODE_MJPG_640x400: Type = 858259856;
-    pub const TY_IMAGE_MODE_MJPG_640x480: Type = 858259936;
-    pub const TY_IMAGE_MODE_MJPG_960x1280: Type = 859571456;
-    pub const TY_IMAGE_MODE_MJPG_1280x720: Type = 860881616;
-    pub const TY_IMAGE_MODE_MJPG_1280x960: Type = 860881856;
-    pub const TY_IMAGE_MODE_MJPG_1280x800: Type = 860881696;
-    pub const TY_IMAGE_MODE_MJPG_1600x1200: Type = 862192816;
-    pub const TY_IMAGE_MODE_MJPG_800x600: Type = 858915416;
-    pub const TY_IMAGE_MODE_MJPG_1920x1080: Type = 863503416;
-    pub const TY_IMAGE_MODE_MJPG_2560x1920: Type = 866125696;
-    pub const TY_IMAGE_MODE_MJPG_2592x1944: Type = 866256792;
-    pub const TY_IMAGE_MODE_MJPG_1920x1440: Type = 863503776;
-    pub const TY_IMAGE_MODE_MJPG_2048x1536: Type = 864028160;
-    pub const TY_IMAGE_MODE_MJPG_240x96: Type = 856621152;
-    pub const TY_IMAGE_MODE_RGB48_160x100: Type = 2148139108;
-    pub const TY_IMAGE_MODE_RGB48_160x120: Type = 2148139128;
-    pub const TY_IMAGE_MODE_RGB48_320x180: Type = 2148794548;
-    pub const TY_IMAGE_MODE_RGB48_320x200: Type = 2148794568;
-    pub const TY_IMAGE_MODE_RGB48_320x240: Type = 2148794608;
-    pub const TY_IMAGE_MODE_RGB48_480x640: Type = 2149450368;
-    pub const TY_IMAGE_MODE_RGB48_640x360: Type = 2150105448;
-    pub const TY_IMAGE_MODE_RGB48_640x400: Type = 2150105488;
-    pub const TY_IMAGE_MODE_RGB48_640x480: Type = 2150105568;
-    pub const TY_IMAGE_MODE_RGB48_960x1280: Type = 2151417088;
-    pub const TY_IMAGE_MODE_RGB48_1280x720: Type = 2152727248;
-    pub const TY_IMAGE_MODE_RGB48_1280x960: Type = 2152727488;
-    pub const TY_IMAGE_MODE_RGB48_1280x800: Type = 2152727328;
-    pub const TY_IMAGE_MODE_RGB48_1600x1200: Type = 2154038448;
-    pub const TY_IMAGE_MODE_RGB48_800x600: Type = 2150761048;
-    pub const TY_IMAGE_MODE_RGB48_1920x1080: Type = 2155349048;
-    pub const TY_IMAGE_MODE_RGB48_2560x1920: Type = 2157971328;
-    pub const TY_IMAGE_MODE_RGB48_2592x1944: Type = 2158102424;
-    pub const TY_IMAGE_MODE_RGB48_1920x1440: Type = 2155349408;
-    pub const TY_IMAGE_MODE_RGB48_2048x1536: Type = 2155873792;
-    pub const TY_IMAGE_MODE_RGB48_240x96: Type = 2148466784;
-    pub const TY_IMAGE_MODE_BGR48_160x100: Type = 2164916324;
-    pub const TY_IMAGE_MODE_BGR48_160x120: Type = 2164916344;
-    pub const TY_IMAGE_MODE_BGR48_320x180: Type = 2165571764;
-    pub const TY_IMAGE_MODE_BGR48_320x200: Type = 2165571784;
-    pub const TY_IMAGE_MODE_BGR48_320x240: Type = 2165571824;
-    pub const TY_IMAGE_MODE_BGR48_480x640: Type = 2166227584;
-    pub const TY_IMAGE_MODE_BGR48_640x360: Type = 2166882664;
-    pub const TY_IMAGE_MODE_BGR48_640x400: Type = 2166882704;
-    pub const TY_IMAGE_MODE_BGR48_640x480: Type = 2166882784;
-    pub const TY_IMAGE_MODE_BGR48_960x1280: Type = 2168194304;
-    pub const TY_IMAGE_MODE_BGR48_1280x720: Type = 2169504464;
-    pub const TY_IMAGE_MODE_BGR48_1280x960: Type = 2169504704;
-    pub const TY_IMAGE_MODE_BGR48_1280x800: Type = 2169504544;
-    pub const TY_IMAGE_MODE_BGR48_1600x1200: Type = 2170815664;
-    pub const TY_IMAGE_MODE_BGR48_800x600: Type = 2167538264;
-    pub const TY_IMAGE_MODE_BGR48_1920x1080: Type = 2172126264;
-    pub const TY_IMAGE_MODE_BGR48_2560x1920: Type = 2174748544;
-    pub const TY_IMAGE_MODE_BGR48_2592x1944: Type = 2174879640;
-    pub const TY_IMAGE_MODE_BGR48_1920x1440: Type = 2172126624;
-    pub const TY_IMAGE_MODE_BGR48_2048x1536: Type = 2172651008;
-    pub const TY_IMAGE_MODE_BGR48_240x96: Type = 2165244000;
-    pub const TY_IMAGE_MODE_BGR_160x100: Type = 822739044;
-    pub const TY_IMAGE_MODE_BGR_160x120: Type = 822739064;
-    pub const TY_IMAGE_MODE_BGR_320x180: Type = 823394484;
-    pub const TY_IMAGE_MODE_BGR_320x200: Type = 823394504;
-    pub const TY_IMAGE_MODE_BGR_320x240: Type = 823394544;
-    pub const TY_IMAGE_MODE_BGR_480x640: Type = 824050304;
-    pub const TY_IMAGE_MODE_BGR_640x360: Type = 824705384;
-    pub const TY_IMAGE_MODE_BGR_640x400: Type = 824705424;
-    pub const TY_IMAGE_MODE_BGR_640x480: Type = 824705504;
-    pub const TY_IMAGE_MODE_BGR_960x1280: Type = 826017024;
-    pub const TY_IMAGE_MODE_BGR_1280x720: Type = 827327184;
-    pub const TY_IMAGE_MODE_BGR_1280x960: Type = 827327424;
-    pub const TY_IMAGE_MODE_BGR_1280x800: Type = 827327264;
-    pub const TY_IMAGE_MODE_BGR_1600x1200: Type = 828638384;
-    pub const TY_IMAGE_MODE_BGR_800x600: Type = 825360984;
-    pub const TY_IMAGE_MODE_BGR_1920x1080: Type = 829948984;
-    pub const TY_IMAGE_MODE_BGR_2560x1920: Type = 832571264;
-    pub const TY_IMAGE_MODE_BGR_2592x1944: Type = 832702360;
-    pub const TY_IMAGE_MODE_BGR_1920x1440: Type = 829949344;
-    pub const TY_IMAGE_MODE_BGR_2048x1536: Type = 830473728;
-    pub const TY_IMAGE_MODE_BGR_240x96: Type = 823066720;
-    pub const TY_IMAGE_MODE_XYZ48_160x100: Type = 2181693540;
-    pub const TY_IMAGE_MODE_XYZ48_160x120: Type = 2181693560;
-    pub const TY_IMAGE_MODE_XYZ48_320x180: Type = 2182348980;
-    pub const TY_IMAGE_MODE_XYZ48_320x200: Type = 2182349000;
-    pub const TY_IMAGE_MODE_XYZ48_320x240: Type = 2182349040;
-    pub const TY_IMAGE_MODE_XYZ48_480x640: Type = 2183004800;
-    pub const TY_IMAGE_MODE_XYZ48_640x360: Type = 2183659880;
-    pub const TY_IMAGE_MODE_XYZ48_640x400: Type = 2183659920;
-    pub const TY_IMAGE_MODE_XYZ48_640x480: Type = 2183660000;
-    pub const TY_IMAGE_MODE_XYZ48_960x1280: Type = 2184971520;
-    pub const TY_IMAGE_MODE_XYZ48_1280x720: Type = 2186281680;
-    pub const TY_IMAGE_MODE_XYZ48_1280x960: Type = 2186281920;
-    pub const TY_IMAGE_MODE_XYZ48_1280x800: Type = 2186281760;
-    pub const TY_IMAGE_MODE_XYZ48_1600x1200: Type = 2187592880;
-    pub const TY_IMAGE_MODE_XYZ48_800x600: Type = 2184315480;
-    pub const TY_IMAGE_MODE_XYZ48_1920x1080: Type = 2188903480;
-    pub const TY_IMAGE_MODE_XYZ48_2560x1920: Type = 2191525760;
-    pub const TY_IMAGE_MODE_XYZ48_2592x1944: Type = 2191656856;
-    pub const TY_IMAGE_MODE_XYZ48_1920x1440: Type = 2188903840;
-    pub const TY_IMAGE_MODE_XYZ48_2048x1536: Type = 2189428224;
-    pub const TY_IMAGE_MODE_XYZ48_240x96: Type = 2182021216;
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_160x100: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_160x100;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_160x120: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_160x120;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_320x180: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_320x180;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_320x200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_320x200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_320x240: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_320x240;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_480x640: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_480x640;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_640x360: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_640x360;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_640x400: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_640x400;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_640x480: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_640x480;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_960x1280: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_960x1280;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x720: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1280x720;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x960: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1280x960;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1280x800: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1280x800;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1600x1200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1600x1200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_800x600: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_800x600;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1920x1080: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1920x1080;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_2560x1920: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_2560x1920;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_2592x1944: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_2592x1944;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_1920x1440: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_1920x1440;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_2048x1536: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_2048x1536;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GRBG_240x96: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GB_240x96;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_160x100: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_160x100;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_160x120: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_160x120;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_320x180: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_320x180;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_320x200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_320x200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_320x240: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_320x240;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_480x640: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_480x640;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_640x360: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_640x360;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_640x400: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_640x400;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_640x480: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_640x480;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_960x1280: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_960x1280;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x720: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1280x720;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x960: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1280x960;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1280x800: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1280x800;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1600x1200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1600x1200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_800x600: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_800x600;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1920x1080: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1920x1080;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_2560x1920: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_2560x1920;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_2592x1944: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_2592x1944;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_1920x1440: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_1920x1440;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_2048x1536: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_2048x1536;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8RGGB_240x96: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8BG_240x96;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_160x100: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_160x100;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_160x120: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_160x120;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_320x180: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_320x180;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_320x200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_320x200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_320x240: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_320x240;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_480x640: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_480x640;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_640x360: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_640x360;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_640x400: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_640x400;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_640x480: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_640x480;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_960x1280: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_960x1280;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x720: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1280x720;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x960: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1280x960;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1280x800: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1280x800;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1600x1200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1600x1200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_800x600: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_800x600;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1920x1080: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1920x1080;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_2560x1920: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_2560x1920;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_2592x1944: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_2592x1944;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_1920x1440: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_1920x1440;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_2048x1536: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_2048x1536;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8GBRG_240x96: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8GR_240x96;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_160x100: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_160x100;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_160x120: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_160x120;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_320x180: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_320x180;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_320x200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_320x200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_320x240: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_320x240;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_480x640: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_480x640;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_640x360: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_640x360;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_640x400: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_640x400;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_640x480: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_640x480;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_960x1280: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_960x1280;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x720: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1280x720;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x960: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1280x960;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1280x800: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1280x800;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1600x1200: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1600x1200;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_800x600: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_800x600;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1920x1080: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1920x1080;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_2560x1920: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_2560x1920;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_2592x1944: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_2592x1944;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_1920x1440: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_1920x1440;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_2048x1536: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_2048x1536;
+}
+impl TY_IMAGE_MODE_LIST {
+    pub const TY_IMAGE_MODE_BAYER8BGGR_240x96: TY_IMAGE_MODE_LIST =
+        TY_IMAGE_MODE_LIST::TY_IMAGE_MODE_BAYER8RG_240x96;
+}
+#[repr(u32)]
+#[doc = "@brief Predefined Image Mode List\n image mode controls image resolution & format\n predefined image modes named like TY_IMAGE_MODE_MONO_160x120,TY_IMAGE_MODE_RGB_1280x960"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_IMAGE_MODE_LIST {
+    TY_IMAGE_MODE_MONO_160x100 = 269090916,
+    TY_IMAGE_MODE_MONO_160x120 = 269090936,
+    TY_IMAGE_MODE_MONO_320x180 = 269746356,
+    TY_IMAGE_MODE_MONO_320x200 = 269746376,
+    TY_IMAGE_MODE_MONO_320x240 = 269746416,
+    TY_IMAGE_MODE_MONO_480x640 = 270402176,
+    TY_IMAGE_MODE_MONO_640x360 = 271057256,
+    TY_IMAGE_MODE_MONO_640x400 = 271057296,
+    TY_IMAGE_MODE_MONO_640x480 = 271057376,
+    TY_IMAGE_MODE_MONO_960x1280 = 272368896,
+    TY_IMAGE_MODE_MONO_1280x720 = 273679056,
+    TY_IMAGE_MODE_MONO_1280x960 = 273679296,
+    TY_IMAGE_MODE_MONO_1280x800 = 273679136,
+    TY_IMAGE_MODE_MONO_1600x1200 = 274990256,
+    TY_IMAGE_MODE_MONO_800x600 = 271712856,
+    TY_IMAGE_MODE_MONO_1920x1080 = 276300856,
+    TY_IMAGE_MODE_MONO_2560x1920 = 278923136,
+    TY_IMAGE_MODE_MONO_2592x1944 = 279054232,
+    TY_IMAGE_MODE_MONO_1920x1440 = 276301216,
+    TY_IMAGE_MODE_MONO_2048x1536 = 276825600,
+    TY_IMAGE_MODE_MONO_240x96 = 269418592,
+    TY_IMAGE_MODE_MONO16_160x100 = 587858020,
+    TY_IMAGE_MODE_MONO16_160x120 = 587858040,
+    TY_IMAGE_MODE_MONO16_320x180 = 588513460,
+    TY_IMAGE_MODE_MONO16_320x200 = 588513480,
+    TY_IMAGE_MODE_MONO16_320x240 = 588513520,
+    TY_IMAGE_MODE_MONO16_480x640 = 589169280,
+    TY_IMAGE_MODE_MONO16_640x360 = 589824360,
+    TY_IMAGE_MODE_MONO16_640x400 = 589824400,
+    TY_IMAGE_MODE_MONO16_640x480 = 589824480,
+    TY_IMAGE_MODE_MONO16_960x1280 = 591136000,
+    TY_IMAGE_MODE_MONO16_1280x720 = 592446160,
+    TY_IMAGE_MODE_MONO16_1280x960 = 592446400,
+    TY_IMAGE_MODE_MONO16_1280x800 = 592446240,
+    TY_IMAGE_MODE_MONO16_1600x1200 = 593757360,
+    TY_IMAGE_MODE_MONO16_800x600 = 590479960,
+    TY_IMAGE_MODE_MONO16_1920x1080 = 595067960,
+    TY_IMAGE_MODE_MONO16_2560x1920 = 597690240,
+    TY_IMAGE_MODE_MONO16_2592x1944 = 597821336,
+    TY_IMAGE_MODE_MONO16_1920x1440 = 595068320,
+    TY_IMAGE_MODE_MONO16_2048x1536 = 595592704,
+    TY_IMAGE_MODE_MONO16_240x96 = 588185696,
+    TY_IMAGE_MODE_TOF_IR_MONO16_160x100 = 2752118884,
+    TY_IMAGE_MODE_TOF_IR_MONO16_160x120 = 2752118904,
+    TY_IMAGE_MODE_TOF_IR_MONO16_320x180 = 2752774324,
+    TY_IMAGE_MODE_TOF_IR_MONO16_320x200 = 2752774344,
+    TY_IMAGE_MODE_TOF_IR_MONO16_320x240 = 2752774384,
+    TY_IMAGE_MODE_TOF_IR_MONO16_480x640 = 2753430144,
+    TY_IMAGE_MODE_TOF_IR_MONO16_640x360 = 2754085224,
+    TY_IMAGE_MODE_TOF_IR_MONO16_640x400 = 2754085264,
+    TY_IMAGE_MODE_TOF_IR_MONO16_640x480 = 2754085344,
+    TY_IMAGE_MODE_TOF_IR_MONO16_960x1280 = 2755396864,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1280x720 = 2756707024,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1280x960 = 2756707264,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1280x800 = 2756707104,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1600x1200 = 2758018224,
+    TY_IMAGE_MODE_TOF_IR_MONO16_800x600 = 2754740824,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1920x1080 = 2759328824,
+    TY_IMAGE_MODE_TOF_IR_MONO16_2560x1920 = 2761951104,
+    TY_IMAGE_MODE_TOF_IR_MONO16_2592x1944 = 2762082200,
+    TY_IMAGE_MODE_TOF_IR_MONO16_1920x1440 = 2759329184,
+    TY_IMAGE_MODE_TOF_IR_MONO16_2048x1536 = 2759853568,
+    TY_IMAGE_MODE_TOF_IR_MONO16_240x96 = 2752446560,
+    TY_IMAGE_MODE_DEPTH16_160x100 = 537526372,
+    TY_IMAGE_MODE_DEPTH16_160x120 = 537526392,
+    TY_IMAGE_MODE_DEPTH16_320x180 = 538181812,
+    TY_IMAGE_MODE_DEPTH16_320x200 = 538181832,
+    TY_IMAGE_MODE_DEPTH16_320x240 = 538181872,
+    TY_IMAGE_MODE_DEPTH16_480x640 = 538837632,
+    TY_IMAGE_MODE_DEPTH16_640x360 = 539492712,
+    TY_IMAGE_MODE_DEPTH16_640x400 = 539492752,
+    TY_IMAGE_MODE_DEPTH16_640x480 = 539492832,
+    TY_IMAGE_MODE_DEPTH16_960x1280 = 540804352,
+    TY_IMAGE_MODE_DEPTH16_1280x720 = 542114512,
+    TY_IMAGE_MODE_DEPTH16_1280x960 = 542114752,
+    TY_IMAGE_MODE_DEPTH16_1280x800 = 542114592,
+    TY_IMAGE_MODE_DEPTH16_1600x1200 = 543425712,
+    TY_IMAGE_MODE_DEPTH16_800x600 = 540148312,
+    TY_IMAGE_MODE_DEPTH16_1920x1080 = 544736312,
+    TY_IMAGE_MODE_DEPTH16_2560x1920 = 547358592,
+    TY_IMAGE_MODE_DEPTH16_2592x1944 = 547489688,
+    TY_IMAGE_MODE_DEPTH16_1920x1440 = 544736672,
+    TY_IMAGE_MODE_DEPTH16_2048x1536 = 545261056,
+    TY_IMAGE_MODE_DEPTH16_240x96 = 537854048,
+    TY_IMAGE_MODE_YVYU_160x100 = 554303588,
+    TY_IMAGE_MODE_YVYU_160x120 = 554303608,
+    TY_IMAGE_MODE_YVYU_320x180 = 554959028,
+    TY_IMAGE_MODE_YVYU_320x200 = 554959048,
+    TY_IMAGE_MODE_YVYU_320x240 = 554959088,
+    TY_IMAGE_MODE_YVYU_480x640 = 555614848,
+    TY_IMAGE_MODE_YVYU_640x360 = 556269928,
+    TY_IMAGE_MODE_YVYU_640x400 = 556269968,
+    TY_IMAGE_MODE_YVYU_640x480 = 556270048,
+    TY_IMAGE_MODE_YVYU_960x1280 = 557581568,
+    TY_IMAGE_MODE_YVYU_1280x720 = 558891728,
+    TY_IMAGE_MODE_YVYU_1280x960 = 558891968,
+    TY_IMAGE_MODE_YVYU_1280x800 = 558891808,
+    TY_IMAGE_MODE_YVYU_1600x1200 = 560202928,
+    TY_IMAGE_MODE_YVYU_800x600 = 556925528,
+    TY_IMAGE_MODE_YVYU_1920x1080 = 561513528,
+    TY_IMAGE_MODE_YVYU_2560x1920 = 564135808,
+    TY_IMAGE_MODE_YVYU_2592x1944 = 564266904,
+    TY_IMAGE_MODE_YVYU_1920x1440 = 561513888,
+    TY_IMAGE_MODE_YVYU_2048x1536 = 562038272,
+    TY_IMAGE_MODE_YVYU_240x96 = 554631264,
+    TY_IMAGE_MODE_YUYV_160x100 = 571080804,
+    TY_IMAGE_MODE_YUYV_160x120 = 571080824,
+    TY_IMAGE_MODE_YUYV_320x180 = 571736244,
+    TY_IMAGE_MODE_YUYV_320x200 = 571736264,
+    TY_IMAGE_MODE_YUYV_320x240 = 571736304,
+    TY_IMAGE_MODE_YUYV_480x640 = 572392064,
+    TY_IMAGE_MODE_YUYV_640x360 = 573047144,
+    TY_IMAGE_MODE_YUYV_640x400 = 573047184,
+    TY_IMAGE_MODE_YUYV_640x480 = 573047264,
+    TY_IMAGE_MODE_YUYV_960x1280 = 574358784,
+    TY_IMAGE_MODE_YUYV_1280x720 = 575668944,
+    TY_IMAGE_MODE_YUYV_1280x960 = 575669184,
+    TY_IMAGE_MODE_YUYV_1280x800 = 575669024,
+    TY_IMAGE_MODE_YUYV_1600x1200 = 576980144,
+    TY_IMAGE_MODE_YUYV_800x600 = 573702744,
+    TY_IMAGE_MODE_YUYV_1920x1080 = 578290744,
+    TY_IMAGE_MODE_YUYV_2560x1920 = 580913024,
+    TY_IMAGE_MODE_YUYV_2592x1944 = 581044120,
+    TY_IMAGE_MODE_YUYV_1920x1440 = 578291104,
+    TY_IMAGE_MODE_YUYV_2048x1536 = 578815488,
+    TY_IMAGE_MODE_YUYV_240x96 = 571408480,
+    TY_IMAGE_MODE_RGB_160x100 = 805961828,
+    TY_IMAGE_MODE_RGB_160x120 = 805961848,
+    TY_IMAGE_MODE_RGB_320x180 = 806617268,
+    TY_IMAGE_MODE_RGB_320x200 = 806617288,
+    TY_IMAGE_MODE_RGB_320x240 = 806617328,
+    TY_IMAGE_MODE_RGB_480x640 = 807273088,
+    TY_IMAGE_MODE_RGB_640x360 = 807928168,
+    TY_IMAGE_MODE_RGB_640x400 = 807928208,
+    TY_IMAGE_MODE_RGB_640x480 = 807928288,
+    TY_IMAGE_MODE_RGB_960x1280 = 809239808,
+    TY_IMAGE_MODE_RGB_1280x720 = 810549968,
+    TY_IMAGE_MODE_RGB_1280x960 = 810550208,
+    TY_IMAGE_MODE_RGB_1280x800 = 810550048,
+    TY_IMAGE_MODE_RGB_1600x1200 = 811861168,
+    TY_IMAGE_MODE_RGB_800x600 = 808583768,
+    TY_IMAGE_MODE_RGB_1920x1080 = 813171768,
+    TY_IMAGE_MODE_RGB_2560x1920 = 815794048,
+    TY_IMAGE_MODE_RGB_2592x1944 = 815925144,
+    TY_IMAGE_MODE_RGB_1920x1440 = 813172128,
+    TY_IMAGE_MODE_RGB_2048x1536 = 813696512,
+    TY_IMAGE_MODE_RGB_240x96 = 806289504,
+    TY_IMAGE_MODE_JPEG_160x100 = 839516260,
+    TY_IMAGE_MODE_JPEG_160x120 = 839516280,
+    TY_IMAGE_MODE_JPEG_320x180 = 840171700,
+    TY_IMAGE_MODE_JPEG_320x200 = 840171720,
+    TY_IMAGE_MODE_JPEG_320x240 = 840171760,
+    TY_IMAGE_MODE_JPEG_480x640 = 840827520,
+    TY_IMAGE_MODE_JPEG_640x360 = 841482600,
+    TY_IMAGE_MODE_JPEG_640x400 = 841482640,
+    TY_IMAGE_MODE_JPEG_640x480 = 841482720,
+    TY_IMAGE_MODE_JPEG_960x1280 = 842794240,
+    TY_IMAGE_MODE_JPEG_1280x720 = 844104400,
+    TY_IMAGE_MODE_JPEG_1280x960 = 844104640,
+    TY_IMAGE_MODE_JPEG_1280x800 = 844104480,
+    TY_IMAGE_MODE_JPEG_1600x1200 = 845415600,
+    TY_IMAGE_MODE_JPEG_800x600 = 842138200,
+    TY_IMAGE_MODE_JPEG_1920x1080 = 846726200,
+    TY_IMAGE_MODE_JPEG_2560x1920 = 849348480,
+    TY_IMAGE_MODE_JPEG_2592x1944 = 849479576,
+    TY_IMAGE_MODE_JPEG_1920x1440 = 846726560,
+    TY_IMAGE_MODE_JPEG_2048x1536 = 847250944,
+    TY_IMAGE_MODE_JPEG_240x96 = 839843936,
+    TY_IMAGE_MODE_BAYER8GB_160x100 = 285868132,
+    TY_IMAGE_MODE_BAYER8GB_160x120 = 285868152,
+    TY_IMAGE_MODE_BAYER8GB_320x180 = 286523572,
+    TY_IMAGE_MODE_BAYER8GB_320x200 = 286523592,
+    TY_IMAGE_MODE_BAYER8GB_320x240 = 286523632,
+    TY_IMAGE_MODE_BAYER8GB_480x640 = 287179392,
+    TY_IMAGE_MODE_BAYER8GB_640x360 = 287834472,
+    TY_IMAGE_MODE_BAYER8GB_640x400 = 287834512,
+    TY_IMAGE_MODE_BAYER8GB_640x480 = 287834592,
+    TY_IMAGE_MODE_BAYER8GB_960x1280 = 289146112,
+    TY_IMAGE_MODE_BAYER8GB_1280x720 = 290456272,
+    TY_IMAGE_MODE_BAYER8GB_1280x960 = 290456512,
+    TY_IMAGE_MODE_BAYER8GB_1280x800 = 290456352,
+    TY_IMAGE_MODE_BAYER8GB_1600x1200 = 291767472,
+    TY_IMAGE_MODE_BAYER8GB_800x600 = 288490072,
+    TY_IMAGE_MODE_BAYER8GB_1920x1080 = 293078072,
+    TY_IMAGE_MODE_BAYER8GB_2560x1920 = 295700352,
+    TY_IMAGE_MODE_BAYER8GB_2592x1944 = 295831448,
+    TY_IMAGE_MODE_BAYER8GB_1920x1440 = 293078432,
+    TY_IMAGE_MODE_BAYER8GB_2048x1536 = 293602816,
+    TY_IMAGE_MODE_BAYER8GB_240x96 = 286195808,
+    TY_IMAGE_MODE_BAYER8BG_160x100 = 302645348,
+    TY_IMAGE_MODE_BAYER8BG_160x120 = 302645368,
+    TY_IMAGE_MODE_BAYER8BG_320x180 = 303300788,
+    TY_IMAGE_MODE_BAYER8BG_320x200 = 303300808,
+    TY_IMAGE_MODE_BAYER8BG_320x240 = 303300848,
+    TY_IMAGE_MODE_BAYER8BG_480x640 = 303956608,
+    TY_IMAGE_MODE_BAYER8BG_640x360 = 304611688,
+    TY_IMAGE_MODE_BAYER8BG_640x400 = 304611728,
+    TY_IMAGE_MODE_BAYER8BG_640x480 = 304611808,
+    TY_IMAGE_MODE_BAYER8BG_960x1280 = 305923328,
+    TY_IMAGE_MODE_BAYER8BG_1280x720 = 307233488,
+    TY_IMAGE_MODE_BAYER8BG_1280x960 = 307233728,
+    TY_IMAGE_MODE_BAYER8BG_1280x800 = 307233568,
+    TY_IMAGE_MODE_BAYER8BG_1600x1200 = 308544688,
+    TY_IMAGE_MODE_BAYER8BG_800x600 = 305267288,
+    TY_IMAGE_MODE_BAYER8BG_1920x1080 = 309855288,
+    TY_IMAGE_MODE_BAYER8BG_2560x1920 = 312477568,
+    TY_IMAGE_MODE_BAYER8BG_2592x1944 = 312608664,
+    TY_IMAGE_MODE_BAYER8BG_1920x1440 = 309855648,
+    TY_IMAGE_MODE_BAYER8BG_2048x1536 = 310380032,
+    TY_IMAGE_MODE_BAYER8BG_240x96 = 302973024,
+    TY_IMAGE_MODE_BAYER8GR_160x100 = 319422564,
+    TY_IMAGE_MODE_BAYER8GR_160x120 = 319422584,
+    TY_IMAGE_MODE_BAYER8GR_320x180 = 320078004,
+    TY_IMAGE_MODE_BAYER8GR_320x200 = 320078024,
+    TY_IMAGE_MODE_BAYER8GR_320x240 = 320078064,
+    TY_IMAGE_MODE_BAYER8GR_480x640 = 320733824,
+    TY_IMAGE_MODE_BAYER8GR_640x360 = 321388904,
+    TY_IMAGE_MODE_BAYER8GR_640x400 = 321388944,
+    TY_IMAGE_MODE_BAYER8GR_640x480 = 321389024,
+    TY_IMAGE_MODE_BAYER8GR_960x1280 = 322700544,
+    TY_IMAGE_MODE_BAYER8GR_1280x720 = 324010704,
+    TY_IMAGE_MODE_BAYER8GR_1280x960 = 324010944,
+    TY_IMAGE_MODE_BAYER8GR_1280x800 = 324010784,
+    TY_IMAGE_MODE_BAYER8GR_1600x1200 = 325321904,
+    TY_IMAGE_MODE_BAYER8GR_800x600 = 322044504,
+    TY_IMAGE_MODE_BAYER8GR_1920x1080 = 326632504,
+    TY_IMAGE_MODE_BAYER8GR_2560x1920 = 329254784,
+    TY_IMAGE_MODE_BAYER8GR_2592x1944 = 329385880,
+    TY_IMAGE_MODE_BAYER8GR_1920x1440 = 326632864,
+    TY_IMAGE_MODE_BAYER8GR_2048x1536 = 327157248,
+    TY_IMAGE_MODE_BAYER8GR_240x96 = 319750240,
+    TY_IMAGE_MODE_BAYER8RG_160x100 = 336199780,
+    TY_IMAGE_MODE_BAYER8RG_160x120 = 336199800,
+    TY_IMAGE_MODE_BAYER8RG_320x180 = 336855220,
+    TY_IMAGE_MODE_BAYER8RG_320x200 = 336855240,
+    TY_IMAGE_MODE_BAYER8RG_320x240 = 336855280,
+    TY_IMAGE_MODE_BAYER8RG_480x640 = 337511040,
+    TY_IMAGE_MODE_BAYER8RG_640x360 = 338166120,
+    TY_IMAGE_MODE_BAYER8RG_640x400 = 338166160,
+    TY_IMAGE_MODE_BAYER8RG_640x480 = 338166240,
+    TY_IMAGE_MODE_BAYER8RG_960x1280 = 339477760,
+    TY_IMAGE_MODE_BAYER8RG_1280x720 = 340787920,
+    TY_IMAGE_MODE_BAYER8RG_1280x960 = 340788160,
+    TY_IMAGE_MODE_BAYER8RG_1280x800 = 340788000,
+    TY_IMAGE_MODE_BAYER8RG_1600x1200 = 342099120,
+    TY_IMAGE_MODE_BAYER8RG_800x600 = 338821720,
+    TY_IMAGE_MODE_BAYER8RG_1920x1080 = 343409720,
+    TY_IMAGE_MODE_BAYER8RG_2560x1920 = 346032000,
+    TY_IMAGE_MODE_BAYER8RG_2592x1944 = 346163096,
+    TY_IMAGE_MODE_BAYER8RG_1920x1440 = 343410080,
+    TY_IMAGE_MODE_BAYER8RG_2048x1536 = 343934464,
+    TY_IMAGE_MODE_BAYER8RG_240x96 = 336527456,
+    TY_IMAGE_MODE_CSI_MONO10_160x100 = 1342832740,
+    TY_IMAGE_MODE_CSI_MONO10_160x120 = 1342832760,
+    TY_IMAGE_MODE_CSI_MONO10_320x180 = 1343488180,
+    TY_IMAGE_MODE_CSI_MONO10_320x200 = 1343488200,
+    TY_IMAGE_MODE_CSI_MONO10_320x240 = 1343488240,
+    TY_IMAGE_MODE_CSI_MONO10_480x640 = 1344144000,
+    TY_IMAGE_MODE_CSI_MONO10_640x360 = 1344799080,
+    TY_IMAGE_MODE_CSI_MONO10_640x400 = 1344799120,
+    TY_IMAGE_MODE_CSI_MONO10_640x480 = 1344799200,
+    TY_IMAGE_MODE_CSI_MONO10_960x1280 = 1346110720,
+    TY_IMAGE_MODE_CSI_MONO10_1280x720 = 1347420880,
+    TY_IMAGE_MODE_CSI_MONO10_1280x960 = 1347421120,
+    TY_IMAGE_MODE_CSI_MONO10_1280x800 = 1347420960,
+    TY_IMAGE_MODE_CSI_MONO10_1600x1200 = 1348732080,
+    TY_IMAGE_MODE_CSI_MONO10_800x600 = 1345454680,
+    TY_IMAGE_MODE_CSI_MONO10_1920x1080 = 1350042680,
+    TY_IMAGE_MODE_CSI_MONO10_2560x1920 = 1352664960,
+    TY_IMAGE_MODE_CSI_MONO10_2592x1944 = 1352796056,
+    TY_IMAGE_MODE_CSI_MONO10_1920x1440 = 1350043040,
+    TY_IMAGE_MODE_CSI_MONO10_2048x1536 = 1350567424,
+    TY_IMAGE_MODE_CSI_MONO10_240x96 = 1343160416,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_160x100 = 1359609956,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_160x120 = 1359609976,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_320x180 = 1360265396,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_320x200 = 1360265416,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_320x240 = 1360265456,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_480x640 = 1360921216,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_640x360 = 1361576296,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_640x400 = 1361576336,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_640x480 = 1361576416,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_960x1280 = 1362887936,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x720 = 1364198096,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x960 = 1364198336,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1280x800 = 1364198176,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1600x1200 = 1365509296,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_800x600 = 1362231896,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1920x1080 = 1366819896,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_2560x1920 = 1369442176,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_2592x1944 = 1369573272,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_1920x1440 = 1366820256,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_2048x1536 = 1367344640,
+    TY_IMAGE_MODE_CSI_BAYER10GRBG_240x96 = 1359937632,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_160x100 = 1376387172,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_160x120 = 1376387192,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_320x180 = 1377042612,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_320x200 = 1377042632,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_320x240 = 1377042672,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_480x640 = 1377698432,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_640x360 = 1378353512,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_640x400 = 1378353552,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_640x480 = 1378353632,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_960x1280 = 1379665152,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x720 = 1380975312,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x960 = 1380975552,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1280x800 = 1380975392,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1600x1200 = 1382286512,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_800x600 = 1379009112,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1920x1080 = 1383597112,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_2560x1920 = 1386219392,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_2592x1944 = 1386350488,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_1920x1440 = 1383597472,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_2048x1536 = 1384121856,
+    TY_IMAGE_MODE_CSI_BAYER10RGGB_240x96 = 1376714848,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_160x100 = 1393164388,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_160x120 = 1393164408,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_320x180 = 1393819828,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_320x200 = 1393819848,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_320x240 = 1393819888,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_480x640 = 1394475648,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_640x360 = 1395130728,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_640x400 = 1395130768,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_640x480 = 1395130848,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_960x1280 = 1396442368,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x720 = 1397752528,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x960 = 1397752768,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1280x800 = 1397752608,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1600x1200 = 1399063728,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_800x600 = 1395786328,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1920x1080 = 1400374328,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_2560x1920 = 1402996608,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_2592x1944 = 1403127704,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_1920x1440 = 1400374688,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_2048x1536 = 1400899072,
+    TY_IMAGE_MODE_CSI_BAYER10GBRG_240x96 = 1393492064,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_160x100 = 1409941604,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_160x120 = 1409941624,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_320x180 = 1410597044,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_320x200 = 1410597064,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_320x240 = 1410597104,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_480x640 = 1411252864,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_640x360 = 1411907944,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_640x400 = 1411907984,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_640x480 = 1411908064,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_960x1280 = 1413219584,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x720 = 1414529744,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x960 = 1414529984,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1280x800 = 1414529824,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1600x1200 = 1415840944,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_800x600 = 1412563544,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1920x1080 = 1417151544,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_2560x1920 = 1419773824,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_2592x1944 = 1419904920,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_1920x1440 = 1417151904,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_2048x1536 = 1417676288,
+    TY_IMAGE_MODE_CSI_BAYER10BGGR_240x96 = 1410269280,
+    TY_IMAGE_MODE_CSI_MONO12_160x100 = 1611268196,
+    TY_IMAGE_MODE_CSI_MONO12_160x120 = 1611268216,
+    TY_IMAGE_MODE_CSI_MONO12_320x180 = 1611923636,
+    TY_IMAGE_MODE_CSI_MONO12_320x200 = 1611923656,
+    TY_IMAGE_MODE_CSI_MONO12_320x240 = 1611923696,
+    TY_IMAGE_MODE_CSI_MONO12_480x640 = 1612579456,
+    TY_IMAGE_MODE_CSI_MONO12_640x360 = 1613234536,
+    TY_IMAGE_MODE_CSI_MONO12_640x400 = 1613234576,
+    TY_IMAGE_MODE_CSI_MONO12_640x480 = 1613234656,
+    TY_IMAGE_MODE_CSI_MONO12_960x1280 = 1614546176,
+    TY_IMAGE_MODE_CSI_MONO12_1280x720 = 1615856336,
+    TY_IMAGE_MODE_CSI_MONO12_1280x960 = 1615856576,
+    TY_IMAGE_MODE_CSI_MONO12_1280x800 = 1615856416,
+    TY_IMAGE_MODE_CSI_MONO12_1600x1200 = 1617167536,
+    TY_IMAGE_MODE_CSI_MONO12_800x600 = 1613890136,
+    TY_IMAGE_MODE_CSI_MONO12_1920x1080 = 1618478136,
+    TY_IMAGE_MODE_CSI_MONO12_2560x1920 = 1621100416,
+    TY_IMAGE_MODE_CSI_MONO12_2592x1944 = 1621231512,
+    TY_IMAGE_MODE_CSI_MONO12_1920x1440 = 1618478496,
+    TY_IMAGE_MODE_CSI_MONO12_2048x1536 = 1619002880,
+    TY_IMAGE_MODE_CSI_MONO12_240x96 = 1611595872,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_160x100 = 1628045412,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_160x120 = 1628045432,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_320x180 = 1628700852,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_320x200 = 1628700872,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_320x240 = 1628700912,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_480x640 = 1629356672,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_640x360 = 1630011752,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_640x400 = 1630011792,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_640x480 = 1630011872,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_960x1280 = 1631323392,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x720 = 1632633552,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x960 = 1632633792,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1280x800 = 1632633632,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1600x1200 = 1633944752,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_800x600 = 1630667352,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1920x1080 = 1635255352,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_2560x1920 = 1637877632,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_2592x1944 = 1638008728,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_1920x1440 = 1635255712,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_2048x1536 = 1635780096,
+    TY_IMAGE_MODE_CSI_BAYER12GRBG_240x96 = 1628373088,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_160x100 = 1644822628,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_160x120 = 1644822648,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_320x180 = 1645478068,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_320x200 = 1645478088,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_320x240 = 1645478128,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_480x640 = 1646133888,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_640x360 = 1646788968,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_640x400 = 1646789008,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_640x480 = 1646789088,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_960x1280 = 1648100608,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x720 = 1649410768,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x960 = 1649411008,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1280x800 = 1649410848,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1600x1200 = 1650721968,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_800x600 = 1647444568,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1920x1080 = 1652032568,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_2560x1920 = 1654654848,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_2592x1944 = 1654785944,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_1920x1440 = 1652032928,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_2048x1536 = 1652557312,
+    TY_IMAGE_MODE_CSI_BAYER12RGGB_240x96 = 1645150304,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_160x100 = 1661599844,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_160x120 = 1661599864,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_320x180 = 1662255284,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_320x200 = 1662255304,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_320x240 = 1662255344,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_480x640 = 1662911104,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_640x360 = 1663566184,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_640x400 = 1663566224,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_640x480 = 1663566304,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_960x1280 = 1664877824,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x720 = 1666187984,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x960 = 1666188224,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1280x800 = 1666188064,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1600x1200 = 1667499184,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_800x600 = 1664221784,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1920x1080 = 1668809784,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_2560x1920 = 1671432064,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_2592x1944 = 1671563160,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_1920x1440 = 1668810144,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_2048x1536 = 1669334528,
+    TY_IMAGE_MODE_CSI_BAYER12GBRG_240x96 = 1661927520,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_160x100 = 1678377060,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_160x120 = 1678377080,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_320x180 = 1679032500,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_320x200 = 1679032520,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_320x240 = 1679032560,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_480x640 = 1679688320,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_640x360 = 1680343400,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_640x400 = 1680343440,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_640x480 = 1680343520,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_960x1280 = 1681655040,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x720 = 1682965200,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x960 = 1682965440,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1280x800 = 1682965280,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1600x1200 = 1684276400,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_800x600 = 1680999000,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1920x1080 = 1685587000,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_2560x1920 = 1688209280,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_2592x1944 = 1688340376,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_1920x1440 = 1685587360,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_2048x1536 = 1686111744,
+    TY_IMAGE_MODE_CSI_BAYER12BGGR_240x96 = 1678704736,
+    TY_IMAGE_MODE_MJPG_160x100 = 856293476,
+    TY_IMAGE_MODE_MJPG_160x120 = 856293496,
+    TY_IMAGE_MODE_MJPG_320x180 = 856948916,
+    TY_IMAGE_MODE_MJPG_320x200 = 856948936,
+    TY_IMAGE_MODE_MJPG_320x240 = 856948976,
+    TY_IMAGE_MODE_MJPG_480x640 = 857604736,
+    TY_IMAGE_MODE_MJPG_640x360 = 858259816,
+    TY_IMAGE_MODE_MJPG_640x400 = 858259856,
+    TY_IMAGE_MODE_MJPG_640x480 = 858259936,
+    TY_IMAGE_MODE_MJPG_960x1280 = 859571456,
+    TY_IMAGE_MODE_MJPG_1280x720 = 860881616,
+    TY_IMAGE_MODE_MJPG_1280x960 = 860881856,
+    TY_IMAGE_MODE_MJPG_1280x800 = 860881696,
+    TY_IMAGE_MODE_MJPG_1600x1200 = 862192816,
+    TY_IMAGE_MODE_MJPG_800x600 = 858915416,
+    TY_IMAGE_MODE_MJPG_1920x1080 = 863503416,
+    TY_IMAGE_MODE_MJPG_2560x1920 = 866125696,
+    TY_IMAGE_MODE_MJPG_2592x1944 = 866256792,
+    TY_IMAGE_MODE_MJPG_1920x1440 = 863503776,
+    TY_IMAGE_MODE_MJPG_2048x1536 = 864028160,
+    TY_IMAGE_MODE_MJPG_240x96 = 856621152,
+    TY_IMAGE_MODE_RGB48_160x100 = 2148139108,
+    TY_IMAGE_MODE_RGB48_160x120 = 2148139128,
+    TY_IMAGE_MODE_RGB48_320x180 = 2148794548,
+    TY_IMAGE_MODE_RGB48_320x200 = 2148794568,
+    TY_IMAGE_MODE_RGB48_320x240 = 2148794608,
+    TY_IMAGE_MODE_RGB48_480x640 = 2149450368,
+    TY_IMAGE_MODE_RGB48_640x360 = 2150105448,
+    TY_IMAGE_MODE_RGB48_640x400 = 2150105488,
+    TY_IMAGE_MODE_RGB48_640x480 = 2150105568,
+    TY_IMAGE_MODE_RGB48_960x1280 = 2151417088,
+    TY_IMAGE_MODE_RGB48_1280x720 = 2152727248,
+    TY_IMAGE_MODE_RGB48_1280x960 = 2152727488,
+    TY_IMAGE_MODE_RGB48_1280x800 = 2152727328,
+    TY_IMAGE_MODE_RGB48_1600x1200 = 2154038448,
+    TY_IMAGE_MODE_RGB48_800x600 = 2150761048,
+    TY_IMAGE_MODE_RGB48_1920x1080 = 2155349048,
+    TY_IMAGE_MODE_RGB48_2560x1920 = 2157971328,
+    TY_IMAGE_MODE_RGB48_2592x1944 = 2158102424,
+    TY_IMAGE_MODE_RGB48_1920x1440 = 2155349408,
+    TY_IMAGE_MODE_RGB48_2048x1536 = 2155873792,
+    TY_IMAGE_MODE_RGB48_240x96 = 2148466784,
+    TY_IMAGE_MODE_BGR48_160x100 = 2164916324,
+    TY_IMAGE_MODE_BGR48_160x120 = 2164916344,
+    TY_IMAGE_MODE_BGR48_320x180 = 2165571764,
+    TY_IMAGE_MODE_BGR48_320x200 = 2165571784,
+    TY_IMAGE_MODE_BGR48_320x240 = 2165571824,
+    TY_IMAGE_MODE_BGR48_480x640 = 2166227584,
+    TY_IMAGE_MODE_BGR48_640x360 = 2166882664,
+    TY_IMAGE_MODE_BGR48_640x400 = 2166882704,
+    TY_IMAGE_MODE_BGR48_640x480 = 2166882784,
+    TY_IMAGE_MODE_BGR48_960x1280 = 2168194304,
+    TY_IMAGE_MODE_BGR48_1280x720 = 2169504464,
+    TY_IMAGE_MODE_BGR48_1280x960 = 2169504704,
+    TY_IMAGE_MODE_BGR48_1280x800 = 2169504544,
+    TY_IMAGE_MODE_BGR48_1600x1200 = 2170815664,
+    TY_IMAGE_MODE_BGR48_800x600 = 2167538264,
+    TY_IMAGE_MODE_BGR48_1920x1080 = 2172126264,
+    TY_IMAGE_MODE_BGR48_2560x1920 = 2174748544,
+    TY_IMAGE_MODE_BGR48_2592x1944 = 2174879640,
+    TY_IMAGE_MODE_BGR48_1920x1440 = 2172126624,
+    TY_IMAGE_MODE_BGR48_2048x1536 = 2172651008,
+    TY_IMAGE_MODE_BGR48_240x96 = 2165244000,
+    TY_IMAGE_MODE_BGR_160x100 = 822739044,
+    TY_IMAGE_MODE_BGR_160x120 = 822739064,
+    TY_IMAGE_MODE_BGR_320x180 = 823394484,
+    TY_IMAGE_MODE_BGR_320x200 = 823394504,
+    TY_IMAGE_MODE_BGR_320x240 = 823394544,
+    TY_IMAGE_MODE_BGR_480x640 = 824050304,
+    TY_IMAGE_MODE_BGR_640x360 = 824705384,
+    TY_IMAGE_MODE_BGR_640x400 = 824705424,
+    TY_IMAGE_MODE_BGR_640x480 = 824705504,
+    TY_IMAGE_MODE_BGR_960x1280 = 826017024,
+    TY_IMAGE_MODE_BGR_1280x720 = 827327184,
+    TY_IMAGE_MODE_BGR_1280x960 = 827327424,
+    TY_IMAGE_MODE_BGR_1280x800 = 827327264,
+    TY_IMAGE_MODE_BGR_1600x1200 = 828638384,
+    TY_IMAGE_MODE_BGR_800x600 = 825360984,
+    TY_IMAGE_MODE_BGR_1920x1080 = 829948984,
+    TY_IMAGE_MODE_BGR_2560x1920 = 832571264,
+    TY_IMAGE_MODE_BGR_2592x1944 = 832702360,
+    TY_IMAGE_MODE_BGR_1920x1440 = 829949344,
+    TY_IMAGE_MODE_BGR_2048x1536 = 830473728,
+    TY_IMAGE_MODE_BGR_240x96 = 823066720,
+    TY_IMAGE_MODE_XYZ48_160x100 = 2181693540,
+    TY_IMAGE_MODE_XYZ48_160x120 = 2181693560,
+    TY_IMAGE_MODE_XYZ48_320x180 = 2182348980,
+    TY_IMAGE_MODE_XYZ48_320x200 = 2182349000,
+    TY_IMAGE_MODE_XYZ48_320x240 = 2182349040,
+    TY_IMAGE_MODE_XYZ48_480x640 = 2183004800,
+    TY_IMAGE_MODE_XYZ48_640x360 = 2183659880,
+    TY_IMAGE_MODE_XYZ48_640x400 = 2183659920,
+    TY_IMAGE_MODE_XYZ48_640x480 = 2183660000,
+    TY_IMAGE_MODE_XYZ48_960x1280 = 2184971520,
+    TY_IMAGE_MODE_XYZ48_1280x720 = 2186281680,
+    TY_IMAGE_MODE_XYZ48_1280x960 = 2186281920,
+    TY_IMAGE_MODE_XYZ48_1280x800 = 2186281760,
+    TY_IMAGE_MODE_XYZ48_1600x1200 = 2187592880,
+    TY_IMAGE_MODE_XYZ48_800x600 = 2184315480,
+    TY_IMAGE_MODE_XYZ48_1920x1080 = 2188903480,
+    TY_IMAGE_MODE_XYZ48_2560x1920 = 2191525760,
+    TY_IMAGE_MODE_XYZ48_2592x1944 = 2191656856,
+    TY_IMAGE_MODE_XYZ48_1920x1440 = 2188903840,
+    TY_IMAGE_MODE_XYZ48_2048x1536 = 2189428224,
+    TY_IMAGE_MODE_XYZ48_240x96 = 2182021216,
 }
 pub type TY_IMAGE_MODE = u32;
-pub mod TY_TRIGGER_MODE_LIST {
-    #[doc = "@see refer to sample SimpleView_TriggerMode for detail usage"]
-    pub type Type = u32;
+#[repr(u32)]
+#[doc = "@see refer to sample SimpleView_TriggerMode for detail usage"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_TRIGGER_MODE_LIST {
     #[doc = "<not trigger mode, continuous mode"]
-    pub const TY_TRIGGER_MODE_OFF: Type = 0;
+    TY_TRIGGER_MODE_OFF = 0,
     #[doc = "<slave mode, receive soft/hardware triggers"]
-    pub const TY_TRIGGER_MODE_SLAVE: Type = 1;
+    TY_TRIGGER_MODE_SLAVE = 1,
     #[doc = "<master mode 1, sending one trigger signal once received a soft/hardware trigger"]
-    pub const TY_TRIGGER_MODE_M_SIG: Type = 2;
+    TY_TRIGGER_MODE_M_SIG = 2,
     #[doc = "<master mode 2, periodic sending one trigger signals, 'fps' param should be set"]
-    pub const TY_TRIGGER_MODE_M_PER: Type = 3;
+    TY_TRIGGER_MODE_M_PER = 3,
     #[doc = "<discard, using TY_TRIGGER_MODE28"]
-    pub const TY_TRIGGER_MODE_SIG_PASS: Type = 18;
+    TY_TRIGGER_MODE_SIG_PASS = 18,
     #[doc = "<discard, using TY_TRIGGER_MODE29"]
-    pub const TY_TRIGGER_MODE_PER_PASS: Type = 19;
-    pub const TY_TRIGGER_MODE_TIMER_LIST: Type = 20;
-    pub const TY_TRIGGER_MODE_TIMER_PERIOD: Type = 21;
-    pub const TY_TRIGGER_MODE28: Type = 28;
-    pub const TY_TRIGGER_MODE29: Type = 29;
+    TY_TRIGGER_MODE_PER_PASS = 19,
+    TY_TRIGGER_MODE_TIMER_LIST = 20,
+    TY_TRIGGER_MODE_TIMER_PERIOD = 21,
+    TY_TRIGGER_MODE28 = 28,
+    TY_TRIGGER_MODE29 = 29,
     #[doc = "<trigger mode 30,Alternate output depth image/ir image"]
-    pub const TY_TRIGGER_MODE_PER_PASS2: Type = 30;
-    pub const TY_TRIGGER_WORK_MODE31: Type = 31;
-    pub const TY_TRIGGER_MODE_SIG_LASER: Type = 34;
+    TY_TRIGGER_MODE_PER_PASS2 = 30,
+    TY_TRIGGER_WORK_MODE31 = 31,
+    TY_TRIGGER_MODE_SIG_LASER = 34,
 }
 pub type TY_TRIGGER_MODE = i16;
-pub mod TY_TIME_SYNC_TYPE_LIST {
-    #[doc = "@brief type of time sync"]
-    pub type Type = u32;
-    pub const TY_TIME_SYNC_TYPE_NONE: Type = 0;
-    pub const TY_TIME_SYNC_TYPE_HOST: Type = 1;
-    pub const TY_TIME_SYNC_TYPE_NTP: Type = 2;
-    pub const TY_TIME_SYNC_TYPE_PTP: Type = 3;
-    pub const TY_TIME_SYNC_TYPE_CAN: Type = 4;
-    pub const TY_TIME_SYNC_TYPE_PTP_MASTER: Type = 5;
+#[repr(u32)]
+#[doc = "@brief type of time sync"]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_TIME_SYNC_TYPE_LIST {
+    TY_TIME_SYNC_TYPE_NONE = 0,
+    TY_TIME_SYNC_TYPE_HOST = 1,
+    TY_TIME_SYNC_TYPE_NTP = 2,
+    TY_TIME_SYNC_TYPE_PTP = 3,
+    TY_TIME_SYNC_TYPE_CAN = 4,
+    TY_TIME_SYNC_TYPE_PTP_MASTER = 5,
 }
 pub type TY_TIME_SYNC_TYPE = u32;
-pub mod TY_E_VOLT_T_LIST {
-    pub type Type = u32;
-    pub const TY_EXT_SUP: Type = 0;
-    pub const TY_DO_5V: Type = 1;
-    pub const TY_DO_12V: Type = 2;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_E_VOLT_T_LIST {
+    TY_EXT_SUP = 0,
+    TY_DO_5V = 1,
+    TY_DO_12V = 2,
 }
 pub type TY_E_VOLT_T = u32;
-pub mod TY_E_DO_MODE_LIST {
-    pub type Type = u32;
-    pub const TY_DO_LOW: Type = 0;
-    pub const TY_DO_HIGH: Type = 1;
-    pub const TY_DO_PWM: Type = 2;
-    pub const TY_DO_CAM_TRIG: Type = 3;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_E_DO_MODE_LIST {
+    TY_DO_LOW = 0,
+    TY_DO_HIGH = 1,
+    TY_DO_PWM = 2,
+    TY_DO_CAM_TRIG = 3,
 }
 pub type TY_E_DO_MODE = u32;
-pub mod TY_E_DI_MODE_LIST {
-    pub type Type = u32;
-    pub const TY_DI_POLL: Type = 0;
-    pub const TY_DI_NE_INT: Type = 1;
-    pub const TY_DI_PE_INT: Type = 2;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_E_DI_MODE_LIST {
+    TY_DI_POLL = 0,
+    TY_DI_NE_INT = 1,
+    TY_DI_PE_INT = 2,
 }
 pub type TY_E_DI_MODE = u32;
-pub mod TY_E_DI_INT_ACTION_LIST {
-    pub type Type = u32;
-    pub const TY_DI_INT_NO_OP: Type = 0;
-    pub const TY_DI_INT_TRIG_CAP: Type = 1;
-    pub const TY_DI_INT_EVENT: Type = 2;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_E_DI_INT_ACTION_LIST {
+    TY_DI_INT_NO_OP = 0,
+    TY_DI_INT_TRIG_CAP = 1,
+    TY_DI_INT_EVENT = 2,
 }
 pub type TY_E_DI_INT_ACTION = u32;
 #[repr(C, packed)]
@@ -1434,11 +1722,12 @@ impl ::std::fmt::Debug for TY_DEVICE_BASE_INFO {
         write ! (f , "TY_DEVICE_BASE_INFO {{ iface: {:?}, id: {:?}, vendorName: {:?}, userDefinedName: {:?}, modelName: {:?}, hardwareVersion: {:?}, firmwareVersion: {:?}, __bindgen_anon_1: {:?}, buildHash: {:?}, configVersion: {:?}, reserved: {:?} }}" , self . iface , self . id , self . vendorName , self . userDefinedName , self . modelName , self . hardwareVersion , self . firmwareVersion , self . __bindgen_anon_1 , self . buildHash , self . configVersion , self . reserved)
     }
 }
-pub mod TY_VISIBILITY_TYPE {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const BEGINNER: Type = 0;
-    pub const EXPERT: Type = 1;
-    pub const GURU: Type = 2;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_VISIBILITY_TYPE {
+    BEGINNER = 0,
+    EXPERT = 1,
+    GURU = 2,
 }
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
@@ -1460,7 +1749,7 @@ pub struct TY_FEATURE_INFO {
     pub bindComponentID: TY_COMPONENT_ID,
     #[doc = "< feature ID current feature bind to"]
     pub bindFeatureID: TY_FEATURE_ID,
-    pub visibility: TY_VISIBILITY_TYPE::Type,
+    pub visibility: TY_VISIBILITY_TYPE,
     pub reserved: [::std::os::raw::c_char; 248usize],
 }
 #[allow(clippy::unnecessary_operation, clippy::identity_op)]
@@ -1817,12 +2106,17 @@ const _: () = {
     ["Offset of field: TY_AEC_ROI_PARAM::w"][::std::mem::offset_of!(TY_AEC_ROI_PARAM, w) - 8usize];
     ["Offset of field: TY_AEC_ROI_PARAM::h"][::std::mem::offset_of!(TY_AEC_ROI_PARAM, h) - 12usize];
 };
-pub mod _bindgen_ty_1 {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_PATTERN_SINE_TYPE: Type = 0;
-    pub const TY_PATTERN_GRAY_TYPE: Type = 1;
-    pub const TY_PATTERN_BIN_TYPE: Type = 2;
-    pub const TY_PATTERN_EMPTY_TYPE: Type = 4294967295;
+pub const TY_PATTERN_SINE_TYPE: _bindgen_ty_1 = _bindgen_ty_1::TY_PATTERN_SINE_TYPE;
+pub const TY_PATTERN_GRAY_TYPE: _bindgen_ty_1 = _bindgen_ty_1::TY_PATTERN_GRAY_TYPE;
+pub const TY_PATTERN_BIN_TYPE: _bindgen_ty_1 = _bindgen_ty_1::TY_PATTERN_BIN_TYPE;
+pub const TY_PATTERN_EMPTY_TYPE: _bindgen_ty_1 = _bindgen_ty_1::TY_PATTERN_EMPTY_TYPE;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_1 {
+    TY_PATTERN_SINE_TYPE = 0,
+    TY_PATTERN_GRAY_TYPE = 1,
+    TY_PATTERN_BIN_TYPE = 2,
+    TY_PATTERN_EMPTY_TYPE = 4294967295,
 }
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
@@ -1973,10 +2267,13 @@ impl ::std::fmt::Debug for TY_LASER_PATTERN_PARAM {
         )
     }
 }
-pub mod _bindgen_ty_2 {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_NORMAL_PHASE_TYPE: Type = 0;
-    pub const TY_REFER_PHASE_TYPE: Type = 1;
+pub const TY_NORMAL_PHASE_TYPE: _bindgen_ty_2 = _bindgen_ty_2::TY_NORMAL_PHASE_TYPE;
+pub const TY_REFER_PHASE_TYPE: _bindgen_ty_2 = _bindgen_ty_2::TY_REFER_PHASE_TYPE;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum _bindgen_ty_2 {
+    TY_NORMAL_PHASE_TYPE = 0,
+    TY_REFER_PHASE_TYPE = 1,
 }
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
@@ -2132,11 +2429,12 @@ const _: () = {
     ["Offset of field: TY_TOF_FREQ::freq1"][::std::mem::offset_of!(TY_TOF_FREQ, freq1) - 0usize];
     ["Offset of field: TY_TOF_FREQ::freq2"][::std::mem::offset_of!(TY_TOF_FREQ, freq2) - 4usize];
 };
-pub mod TY_IMU_FPS_LIST {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_IMU_FPS_100HZ: Type = 0;
-    pub const TY_IMU_FPS_200HZ: Type = 1;
-    pub const TY_IMU_FPS_400HZ: Type = 2;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_IMU_FPS_LIST {
+    TY_IMU_FPS_100HZ = 0,
+    TY_IMU_FPS_200HZ = 1,
+    TY_IMU_FPS_400HZ = 2,
 }
 #[repr(C, packed)]
 #[derive(Debug, Copy, Clone)]
@@ -2859,67 +3157,70 @@ unsafe extern "C" {
     ) -> TY_STATUS;
 }
 pub type TY_ISP_HANDLE = *mut ::std::os::raw::c_void;
-pub mod TY_ISP_FEATURE_ID {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_ISP_FEATURE_CAM_MODEL: Type = 0;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_ISP_FEATURE_ID {
+    TY_ISP_FEATURE_CAM_MODEL = 0,
     #[doc = "<device handle for device control"]
-    pub const TY_ISP_FEATURE_CAM_DEV_HANDLE: Type = 1;
+    TY_ISP_FEATURE_CAM_DEV_HANDLE = 1,
     #[doc = "<the component to control"]
-    pub const TY_ISP_FEATURE_CAM_DEV_COMPONENT: Type = 2;
+    TY_ISP_FEATURE_CAM_DEV_COMPONENT = 2,
     #[doc = "<image size width&height"]
-    pub const TY_ISP_FEATURE_IMAGE_SIZE: Type = 256;
-    pub const TY_ISP_FEATURE_WHITEBALANCE_GAIN: Type = 512;
-    pub const TY_ISP_FEATURE_ENABLE_AUTO_WHITEBALANCE: Type = 768;
-    pub const TY_ISP_FEATURE_SHADING: Type = 1024;
-    pub const TY_ISP_FEATURE_SHADING_CENTER: Type = 1280;
+    TY_ISP_FEATURE_IMAGE_SIZE = 256,
+    TY_ISP_FEATURE_WHITEBALANCE_GAIN = 512,
+    TY_ISP_FEATURE_ENABLE_AUTO_WHITEBALANCE = 768,
+    TY_ISP_FEATURE_SHADING = 1024,
+    TY_ISP_FEATURE_SHADING_CENTER = 1280,
     #[doc = "<global black level"]
-    pub const TY_ISP_FEATURE_BLACK_LEVEL: Type = 1536;
+    TY_ISP_FEATURE_BLACK_LEVEL = 1536,
     #[doc = "<to set different black level for each image column"]
-    pub const TY_ISP_FEATURE_BLACK_LEVEL_COLUMN: Type = 1552;
+    TY_ISP_FEATURE_BLACK_LEVEL_COLUMN = 1552,
     #[doc = "<global pixel gain"]
-    pub const TY_ISP_FEATURE_BLACK_LEVEL_GAIN: Type = 1792;
+    TY_ISP_FEATURE_BLACK_LEVEL_GAIN = 1792,
     #[doc = "<to set different gain for each image column"]
-    pub const TY_ISP_FEATURE_BLACK_LEVEL_GAIN_COLUMN: Type = 1808;
-    pub const TY_ISP_FEATURE_BAYER_PATTERN: Type = 2048;
-    pub const TY_ISP_FEATURE_DEMOSAIC_METHOD: Type = 2304;
-    pub const TY_ISP_FEATURE_GAMMA: Type = 2560;
-    pub const TY_ISP_FEATURE_DEFECT_PIXEL_LIST: Type = 2816;
-    pub const TY_ISP_FEATURE_CCM: Type = 3072;
+    TY_ISP_FEATURE_BLACK_LEVEL_GAIN_COLUMN = 1808,
+    TY_ISP_FEATURE_BAYER_PATTERN = 2048,
+    TY_ISP_FEATURE_DEMOSAIC_METHOD = 2304,
+    TY_ISP_FEATURE_GAMMA = 2560,
+    TY_ISP_FEATURE_DEFECT_PIXEL_LIST = 2816,
+    TY_ISP_FEATURE_CCM = 3072,
     #[doc = "<ENABLE CCM"]
-    pub const TY_ISP_FEATURE_CCM_ENABLE: Type = 3088;
-    pub const TY_ISP_FEATURE_BRIGHT: Type = 3328;
-    pub const TY_ISP_FEATURE_CONTRAST: Type = 3584;
-    pub const TY_ISP_FEATURE_AUTOBRIGHT: Type = 3840;
-    pub const TY_ISP_FEATURE_INPUT_RESAMPLE_SCALE: Type = 4096;
-    pub const TY_ISP_FEATURE_ENABLE_AUTO_EXPOSURE_GAIN: Type = 4352;
+    TY_ISP_FEATURE_CCM_ENABLE = 3088,
+    TY_ISP_FEATURE_BRIGHT = 3328,
+    TY_ISP_FEATURE_CONTRAST = 3584,
+    TY_ISP_FEATURE_AUTOBRIGHT = 3840,
+    TY_ISP_FEATURE_INPUT_RESAMPLE_SCALE = 4096,
+    TY_ISP_FEATURE_ENABLE_AUTO_EXPOSURE_GAIN = 4352,
     #[doc = "<exposure range ,default no limit"]
-    pub const TY_ISP_FEATURE_AUTO_EXPOSURE_RANGE: Type = 4608;
+    TY_ISP_FEATURE_AUTO_EXPOSURE_RANGE = 4608,
     #[doc = "<gain range ,default no limit"]
-    pub const TY_ISP_FEATURE_AUTO_GAIN_RANGE: Type = 4864;
+    TY_ISP_FEATURE_AUTO_GAIN_RANGE = 4864,
     #[doc = "<update device exposure interval , default 5 frame"]
-    pub const TY_ISP_FEATURE_AUTO_EXPOSURE_UPDATE_INTERVAL: Type = 5120;
+    TY_ISP_FEATURE_AUTO_EXPOSURE_UPDATE_INTERVAL = 5120,
     #[doc = "<display detail log information"]
-    pub const TY_ISP_FEATURE_DEBUG_LOG: Type = 4278190080;
+    TY_ISP_FEATURE_DEBUG_LOG = 4278190080,
 }
-pub mod TY_ISP_BAYER_PATTERN {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_ISP_BAYER_GB: Type = 0;
-    pub const TY_ISP_BAYER_BG: Type = 1;
-    pub const TY_ISP_BAYER_RG: Type = 2;
-    pub const TY_ISP_BAYER_GR: Type = 3;
-    pub const TY_ISP_BAYER_AUTO: Type = 255;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_ISP_BAYER_PATTERN {
+    TY_ISP_BAYER_GB = 0,
+    TY_ISP_BAYER_BG = 1,
+    TY_ISP_BAYER_RG = 2,
+    TY_ISP_BAYER_GR = 3,
+    TY_ISP_BAYER_AUTO = 255,
 }
-pub mod TY_DEMOSAIC_METHOD {
-    pub type Type = ::std::os::raw::c_uint;
-    pub const TY_DEMOSAIC_METHOD_SIMPLE: Type = 0;
-    pub const TY_DEMOSAIC_METHOD_BILINEAR: Type = 1;
-    pub const TY_DEMOSAIC_METHOD_HQLINEAR: Type = 2;
-    pub const TY_DEMOSAIC_METHOD_EDGESENSE: Type = 3;
+#[repr(u32)]
+#[derive(Debug, Copy, Clone, Hash, PartialEq, Eq)]
+pub enum TY_DEMOSAIC_METHOD {
+    TY_DEMOSAIC_METHOD_SIMPLE = 0,
+    TY_DEMOSAIC_METHOD_BILINEAR = 1,
+    TY_DEMOSAIC_METHOD_HQLINEAR = 2,
+    TY_DEMOSAIC_METHOD_EDGESENSE = 3,
 }
 #[repr(C)]
 #[derive(Debug, Copy, Clone)]
 pub struct TY_ISP_FEATURE_INFO {
-    pub id: TY_ISP_FEATURE_ID::Type,
+    pub id: TY_ISP_FEATURE_ID,
     pub size: i32,
     pub name: *const ::std::os::raw::c_char,
     pub value_type: *const ::std::os::raw::c_char,
@@ -2957,7 +3258,7 @@ unsafe extern "C" {
 unsafe extern "C" {
     pub fn TYISPSetFeature(
         handle: TY_ISP_HANDLE,
-        feature_id: TY_ISP_FEATURE_ID::Type,
+        feature_id: TY_ISP_FEATURE_ID,
         data: *const u8,
         size: i32,
     ) -> TY_STATUS;
@@ -2965,7 +3266,7 @@ unsafe extern "C" {
 unsafe extern "C" {
     pub fn TYISPGetFeature(
         handle: TY_ISP_HANDLE,
-        feature_id: TY_ISP_FEATURE_ID::Type,
+        feature_id: TY_ISP_FEATURE_ID,
         data_buff: *mut u8,
         buff_size: i32,
     ) -> TY_STATUS;
@@ -2973,13 +3274,12 @@ unsafe extern "C" {
 unsafe extern "C" {
     pub fn TYISPGetFeatureSize(
         handle: TY_ISP_HANDLE,
-        feature_id: TY_ISP_FEATURE_ID::Type,
+        feature_id: TY_ISP_FEATURE_ID,
         size: *mut i32,
     ) -> TY_STATUS;
 }
 unsafe extern "C" {
-    pub fn TYISPHasFeature(handle: TY_ISP_HANDLE, feature_id: TY_ISP_FEATURE_ID::Type)
-        -> TY_STATUS;
+    pub fn TYISPHasFeature(handle: TY_ISP_HANDLE, feature_id: TY_ISP_FEATURE_ID) -> TY_STATUS;
 }
 unsafe extern "C" {
     pub fn TYISPGetFeatureInfoList(
